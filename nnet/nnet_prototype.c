@@ -5,21 +5,10 @@
 #include "nnet_functions.h"
 
 /* Base structure of the sigmoid neurone used by the neural network*/
-typeof struct {
-  double bias;
-  double weight;
-}Sig_Neuron;
-/* Base structure of the feedforward neural network using a cross-entropy cost function.*/
-typeof struct {
-  int[] l_sizes;
-  Sig_Neuron[] input_layer;
-  Sig_Neuron[] output_layer
-  Sig_Neuron[] hidden_layers;
-}Neural_Net;
 
-main(int argc, char *argv[]) {
+nnet_func(data,) {
   Neural_Net nnet;
-  weight_init(init);
+  weight_init(nnet);
 }
   
   
