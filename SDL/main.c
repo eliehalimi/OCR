@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 // main.c
 
 # include <SDL/SDL.h>
@@ -9,7 +7,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "pixel_operations.h"
->>>>>>> b80eb0efee50256e62c9dd04c5e81f1d4cfcad41
+
 
 void wait_for_keypressed(void) {
   SDL_Event             event;
@@ -79,41 +77,6 @@ SDL_Surface* display_image(SDL_Surface *img)
 
 int main(int argc, char* argv[])
 {
-<<<<<<< HEAD
-  init_sdl();
-  SDL_Surface *img = load_image(argv[1]);
-  display_image(img);
-  Uint8 r,g,b;
-  int width = img->w;
-  int height = img->h;
-  Uint32 pixel;
-  for (int i = 0; i < height; i++)
-  {
-    for (int j = 0; j < width; j++)
-    {
-      pixel = getpixel(img,i,j);
-      SDL_GetRGB(pixel, img->format, &r, &g, &b);
-      float rgb = r * 0.3 + g * 0.59 + b * 0.11;
-      if (rgb < 124)
-	{
-	  rgb = 0;
-	}
-      else
-	{
-	  rgb = fff;
-	}
-      r = rgb;
-      g = rgb;
-      b = rgb;
-      pixel = SDL_MapRGB(img->format, r, g, b);
-      putpixel(img, i, j, pixel);
-    }
-  }
-  
-  display_image(img);
-  SDL_FreeSurface(img);
-  (void)argc;
-=======
 	if (argc != 2)
 		return -1;
 	SDL_Surface* img = load_image(argv[1]);
@@ -125,12 +88,19 @@ int main(int argc, char* argv[])
 			Uint32 pixel = getpixel(img, i, j);
 			SDL_GetRGB(pixel, img -> format, &r, &g, &b);
 			float luminance = (r*0.3 +g*0.59 +b*0.11);
+
+			if (luminance < 128)
+				luminance = 0;
+			else
+			{
+				luminance = 255;
+			}
+
 			pixel = SDL_MapRGB(img->format, luminance, luminance, luminance);
 			putpixel(img, i, j, pixel);
 		}
 	}
 	display_image(img);
       	return 0;
->>>>>>> b80eb0efee50256e62c9dd04c5e81f1d4cfcad41
 }
 

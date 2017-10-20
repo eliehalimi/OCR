@@ -35,9 +35,11 @@ double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
 }
 
+/* Network functions */
+
 /* Initialize the weights using the norm_dist function, this allows an increase in training speed by limiting the number of saturated neurons at the start of the training*/
 
-weight_initialization(Neural_Net nnet){
+net_initialization(Neural_Net nnet){
   for(int i=0;i<nnet.sizes[0];i++){
     nnet.input_layer[i].weight= norm_dist();
     nnet.input_layer[i].biases= norm_dist();
@@ -61,6 +63,10 @@ weight_initialization(Neural_Net nnet){
     nnet.output_layer[i].weight= norm_dist();
     nnet.output_layer[i].bias =norm_dist();
   }
+}
+
+forward(Neural_Net nnet,input a) {
+
 }
 
 
