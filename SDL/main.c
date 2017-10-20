@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <err.h>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL/SDL.h>
+//#include <SDL/SDL_image.h>
 #include "pixel_operations.h"
 
 void wait_for_keypressed(void) {
@@ -79,6 +79,14 @@ int main(int argc, char *argv[])
       pixel = getpixel(img,i,j);
       SDL_GetRGB(pixel, img->format, &r, &g, &b);
       float rgb = r * 0.3 + g * 0.59 + b * 0.11;
+      if (rgb < 124)
+	{
+	  rgb = 0;
+	}
+      else
+	{
+	  rgb = fff;
+	}
       r = rgb;
       g = rgb;
       b = rgb;
@@ -86,6 +94,7 @@ int main(int argc, char *argv[])
       putpixel(img, i, j, pixel);
     }
   }
+  
   display_image(img);
   SDL_FreeSurface(img);
   (void)argc;
