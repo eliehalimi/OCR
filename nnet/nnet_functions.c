@@ -39,34 +39,35 @@ double sigmoid_prime(double val) {
 
 /* Initialize the weights using the norm_dist function, this allows an increase in training speed by limiting the number of saturated neurons at the start of the training*/
 
-net_initialization(Neural_Net nnet){
-  for(int i=0;i<nnet.sizes[0];i++){
-    nnet.input_layer[i].weight= norm_dist();
-    nnet.input_layer[i].biases= norm_dist();
-    nnet.input_layer[i].linked= nnet.hidden_layers[0];
-  }
-  for(int k=0;k<hidden-1;k++){
-    for(int i=0;i<nnet.sizes[k];i++){
-      nnet.hidden_layers[k][i].weight= norm_dist();
-      nnet.hidden_layers[k][i].bias =norm_dist();
-      nnet.hidden_layers[k][i].linked=nnet.hidden_layers[k+1];
+layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
+  for(int i=0;i<layer_size;i++){
+    double layer[i].weights[prev_layer_size];
+    for(int j=0;j<prev_layer_size;j++) {
+      layer[i].weights[j]= norm_dist();
     }
-  }
-
-  for(int i=0;i<nnet.sizes[hidden];i++){
-    nnet.hidden_layers[hidden-1][i].weight=norm_dist();
-    nnet.hidden_layers[hidden-1][i].bias =norm_dist();
-    nnet.hidden_layers[hidden-1][i].linked=nnet.output_layers;
-  }
-  
-  for(int i=0;i<nnet.sizes[hidden+1];i++){
-    nnet.output_layer[i].weight= norm_dist();
-    nnet.output_layer[i].bias =norm_dist();
+    layer[i].biases= norm_dist();
+    layer[i].linked= prev;
   }
 }
+net_init(Neural_Net nnet,int input[]){
+  for(int i=0;i<sizes[0];i++){
+    double input_layer[i].weights[1];
+    input_layer[i].weights[1]={1};
+    input_layer[i].bias=0;
+    input_layer[i].output=input[i];
+  }
+  layer_init(sizes[1],sizes[0],hidden_layers[0],input_layer);
+  for(int k=1;k<hidden;k++){
+    layer_init(sizes[k+1],sizes[k],hidden_layers[k],hidden_layers[k-1]);
+  }
+  layer_init(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
+}
 
-forward(Neural_Net nnet,input a) {
+fflayer() {
 
+}
+feedforward(Neural_Net nnet,int a) {
+  
 }
 
 
