@@ -9,13 +9,18 @@
 typeof struct {
   double bias;
   double weight;
+  Sig_Neuron linked[];
 }Sig_Neuron;
 /* Base structure of the feedforward neural network using a cross-entropy cost function.*/
 typeof struct {
-  int[] l_sizes;
-  Sig_Neuron[] input_layer;
-  Sig_Neuron[] output_layer
-  Sig_Neuron[] hidden_layers;
+  int sizes[];
+  int hidden;
+  Sig_Neuron input_layer[sizes[0]];
+  Sig_Neuron hidden_layers[hidden][];
+  for(i=0;i<hidden;i++) {
+    hidden_layers[i]=Sig_Neuron[sizes[i+1]];
+  }
+  Sig_Neuron output_layer[sizes[hidden+1]];
 }Neural_Net;
 
 # endif
