@@ -5,14 +5,16 @@
 #include "SDL/pixel_operations.h"
 #include "SDL/pixel.operations.c"
 
-int take_samples[][](SDL_Surface img, size_t x, size_t y)
+int take_samples[][](SDL_Surface *img, size_t x, size_t y)
 {
 	int samples[][];
+	Uint32 pixel;
+
 	for (int i = 0; i < x; i++)
 	{
 		for (int j = 0; j < y; j++)
 		{
-			
+			pixel = getpixel(img, i, j);
 		}
 	}
 }
