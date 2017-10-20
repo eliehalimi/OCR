@@ -6,9 +6,9 @@
 
 /* Base structure of the sigmoid neurone used by the neural network*/
 
-main(int argc, char *argv[]) {
+nnet_func(data,) {
   Neural_Net nnet;
-  weight_init(init);
+  weight_init(nnet);
 }
   
   
