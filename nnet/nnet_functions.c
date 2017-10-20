@@ -9,7 +9,7 @@
 
 /* Misc functions */
 
-/* Genrates doubles following normal distrubution with mean 0 and standard deviation 1*/
+/* Generates a double following normal distrubution with mean 0 and standard deviation 1*/
 
 double norm_dist() {
   double r,val1,val2,fac;
@@ -20,16 +20,16 @@ double norm_dist() {
     r=val1*val1+val2*val2;
   }
   fac=sqrt(-2*log(r)/r);
-  return (v2*fac);
+  return (val2*fac);
 }
 
-/*sigmoid function for the neurons*/
-
+/*Applies the sigmoid function on a value*/
+ 
 double sigmoid(double val) {
   return 1/(1+exp(-val));
 }
 
-/* Devirative of the sigmoid function */
+/* Applies the derivative of the sigmoid function on a value*/
 
 double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
@@ -37,7 +37,8 @@ double sigmoid_prime(double val) {
 
 /* Network functions */
 
-/* Initialize the weights using the norm_dist function, this allows an increase in training speed by limiting the number of saturated neurons at the start of the training*/
+/* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
+This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
 
 layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
   for(int i=0;i<layer_size;i++){
@@ -49,12 +50,13 @@ layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev
     layer[i].linked= prev;
   }
 }
-net_init(Neural_Net nnet,int input[]){
+/* Initializes the network by iterating over the layer_init function*/
+net_init(Neural_Net nnet){
   for(int i=0;i<sizes[0];i++){
     double input_layer[i].weights[1];
     input_layer[i].weights[1]={1};
     input_layer[i].bias=0;
-    input_layer[i].output=input[i];
+    input_layer[i].output;
   }
   layer_init(sizes[1],sizes[0],hidden_layers[0],input_layer);
   for(int k=1;k<hidden;k++){
@@ -63,11 +65,31 @@ net_init(Neural_Net nnet,int input[]){
   layer_init(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
 }
 
-fflayer() {
-
+/* Applies the Feedforward algorithm for a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
+fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[]) {
+  for(int i=0;i<layer_size;i++) {
+    layer[i].output=0;
+    for(int j=0;j<prev_layer_size;j++) {
+      layer[i].output += layer[i].weights[j]*prev_layer[i].output;
+    }
+    layer[i].output= sigmoid(layer[i].output+layer[i].bias);
+  }
 }
-feedforward(Neural_Net nnet,int a) {
-  
+
+/* Applies the Feedforward algorithm for the network by iterating over the fflayer function*/
+int[] feedforward(Neural_Net nnet,int input[]) {
+  int output[sizes[hidden+1]];
+  for(int a=0;a<sizes[0];a++) {
+    input_layer[i]=input[i];
+  }
+  fflayer(sizes[1],sizes[0],hidden_layers[0],input_layer);
+  for(int k=1;k<hidden;k++){
+    fflayer(sizes[k+1],sizes[k],hidden_layers[k],hidden_layers[k-1]);
+  }
+  fflayer(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
+  for(int b=0;b<sizes[hidden+1];b++) {
+    output[b]=output_layer[b].output;
+  }
 }
 
 
