@@ -1,0 +1,8 @@
+/* nnet_prototype.c : This is the prototype for our neural network.To be clear, this is where the base struct is saved not where the whole network. */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "nnet_functions.h"
+
+struct neural_network {
+  
