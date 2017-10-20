@@ -88,10 +88,14 @@ int main(int argc, char* argv[])
 			Uint32 pixel = getpixel(img, i, j);
 			SDL_GetRGB(pixel, img -> format, &r, &g, &b);
 			float luminance = (r*0.3 +g*0.59 +b*0.11);
+
 			if (luminance < 128)
 				luminance = 0;
-			else:
+			else
+			{
 				luminance = 255;
+			}
+
 			pixel = SDL_MapRGB(img->format, luminance, luminance, luminance);
 			putpixel(img, i, j, pixel);
 		}
