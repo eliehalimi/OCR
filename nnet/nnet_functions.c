@@ -71,7 +71,6 @@ net_init(Neural_Net nnet){
     double input_layer[i].weights[1];
     input_layer[i].weights[1]={1};
     input_layer[i].bias=0;
-    input_layer[i].output;
   }
   layer_init(sizes[1],sizes[0],hidden_layers[0],input_layer);
   for(int k=1;k<hidden;k++){
@@ -81,6 +80,7 @@ net_init(Neural_Net nnet){
 }
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
+
 fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[]) {
   for(int i=0;i<layer_size;i++) {
     layer[i].output=0;
@@ -92,6 +92,7 @@ fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_l
 }
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function*/
+
 double[] feedforward(Neural_Net nnet,double input[]) {
   int output[sizes[hidden+1]];
   for(int a=0;a<sizes[0];a++) {
