@@ -7,7 +7,7 @@
 #include "nnet_prototype.h"
 #include "../lib/matrix.h"
 
-/* Misc functions */
+/*-------------------------------Support functions------------------------------ */
 
 /* Generates a double following normal distrubution with mean 0 and standard deviation 1. This allows the generation of random nunbers better suited for initial weights as they arefewer values very close to 1 0r 0.*/
 
@@ -37,7 +37,7 @@ double sigmoid_prime(double val) {
 
 /* Computes the cost associated with an output and its expected value using the cross-entropy cost function Cce */
 
-double cross_entropy(int size,double output[], double expect[]) {
+double cross_entropy(int size, double output[], double expect[]) {
   double cost =0;
   for(int i=0; i<size;i++) {
     if(output[i]!=0 || expect[i]!=0) {
@@ -51,10 +51,35 @@ double cross_entropy(int size,double output[], double expect[]) {
 
 void error(int size,double output[], double expect[], double res[]) 
 {	
-	matrix_sub(output, expect, 1, size, res[]); 
+  matrix_sub(output, expect, 1, size, res[]); 
 }
 
-/* Network functions */
+/* Computes the total error of the network */
+
+double error_tot(int size, double error[]) {
+  double error_t=0;
+  for(int i=0;i<size;i++) {
+    error_t += error[i];
+  }
+  return error_t;
+}
+
+/* Prints the number of correct guesses of the neural network for a test*/
+void accuracy(int size,double output[], double expect[]) {
+  int correct =0;
+  for(int i=0;i<size;i++) {
+    if(output[i]==hidden[i]) {
+      correct+=1;
+    }
+  }
+  printf(%s,"The network had ");
+  printf(%d,correct);
+  printf(%c,'/');
+  printf(%d,size);
+  printf(%s,"correct outputs.");
+}
+
+/*-------------------------- Network functions-------------------------- */
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
@@ -111,20 +136,24 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
   }
 }
 
+void backpropagation(Neural_network nnet, double error[], double total_error, int lines, double backpropres[])
+{
+	for (int i = 0; i < lines; i++)
+	{
+		backpropres[i] = -error[i] * nnet[i].output_layer[i];							
+	}	
+}
+
+double new_weight_prop(Neural_network nnet, double backprop[], double eta)
+{
+	double error = 0;
+	for (int i = 0; i < nnet.size; i++)
+	{
+		error += nnet.
+	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
