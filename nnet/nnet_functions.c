@@ -54,6 +54,8 @@ void error(int size,double output[], double expect[], double res[])
   matrix_sub(output, expect, 1, size, res[]); 
 }
 
+/* Computes the total error of the network */
+
 double error_tot(int size, double error[]) {
   double error_t=0;
   for(int i=0;i<size;i++) {
@@ -62,9 +64,15 @@ double error_tot(int size, double error[]) {
   return error_t;
 }
 
-void accuracy(Neural_Net nnet, double output[], double expect[]) {
+/* Prints the number of correct guesses of the neural network for a test*/
+void accuracy(int size,double output[], double expect[]) {
+  int correct =0;
+  for(int i=0;i<size;i++) {
+    if(output[i]==hidden[i]) {
+      correct+=1;
+    }
+  }
   
-
 }
 
 /*-------------------------- Network functions-------------------------- */
