@@ -7,7 +7,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "pixel_operations.h"
-
+# include "../Voronoise/voronoise.h"
 
 void wait_for_keypressed(void) {
   SDL_Event             event;
@@ -101,6 +101,18 @@ int main(int argc, char* argv[])
 		}
 	}
 	display_image(img);
-      	return 0;
+	
+	int x = img->w;
+	int y = img->h;
+	int samples[x * y];
+	int nbsamples = take_samples(img, x, y, samples);
+	for (int i =0; i < x * y / 2; i++)
+	{
+		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
+		putpixel(img,samples[i * 2],samples[1 + i * 2],pixel);
+	}
+	display_image(img);
+	
+	return nbsamples;
 }
 

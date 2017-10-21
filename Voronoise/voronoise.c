@@ -1,11 +1,11 @@
-#include <stdio.h>478
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL.h>
-#include "SDL/pixel_operations.h"
-#include "SDL/pixel.operations.c"
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include "../SDL/pixel_operations.h"
 
-int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
+int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 {
 	int nbsamples = 0;
 	int k = 0;
@@ -26,8 +26,8 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
 					if (r == 0 && g == 0 && b == 0)
 					{
-						samples[k][0] = i;
-						samples[k][1] = j;
+						samples[k * y] = i;
+						samples[1 + k * y] = j; 
 						nbsamples++;
 						k++;
 					}
@@ -38,8 +38,8 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
 					if (r == 0 && g == 0 && b == 0)
 					{
-						samples[k][0] = i;
-						samples[k][1] = j;
+						samples[k * y] = i;
+						samples[1 + k * y] = j;
 						nbsamples++;
 						k++;
 					}
@@ -50,8 +50,8 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
 					if (r == 0 && g == 0 && b == 0)
 					{
-						samples[k][0] = i;
-						samples[k][1] = j;
+						samples[k * y] = i;
+						samples[1 + k * y] = j;
 						nbsamples++;
 						k++;
 					}
@@ -62,8 +62,8 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
 					if (r == 0 && g == 0 && b == 0)
 					{
-						samples[k][0] = i;
-						samples[k][1] = j;
+						samples[k * y] = i;
+						samples[1 + k * y] = j;
 						nbsamples++;
 						k++;
 					}
