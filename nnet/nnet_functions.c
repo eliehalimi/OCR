@@ -9,7 +9,7 @@
 
 /* Misc functions */
 
-/* Generates a double following normal distrubution with mean 0 and standard deviation 1*/
+/* Generates a double following normal distrubution with mean 0 and standard deviation 1. This allows the generation of random nunbers better suited for initial weights as they arefewer values very close to 1 0r 0.*/
 
 double norm_dist() {
   double r,val1,val2,fac;
@@ -35,9 +35,9 @@ double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
 }
 
-/* Computes the cost associated with an output and the expected value using the cross-entropy cost function*/
+/* Computes the cost associated with an output and its expected value using the cross-entropy cost function*/
 
-double CrossEntropy(int size,double output[], double expect[]) {
+double cross_entropy(int size,double output[], double expect[]) {
   double cost =0;
   for(int i=0; i<size;i++) {
     if(output[i]!=0 || expect[i]!=0) {
@@ -80,7 +80,7 @@ net_init(Neural_Net nnet){
   layer_init(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
 }
 
-/* Applies the Feedforward algorithm for a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
+/* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
 fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[]) {
   for(int i=0;i<layer_size;i++) {
     layer[i].output=0;
@@ -91,7 +91,7 @@ fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_l
   }
 }
 
-/* Applies the Feedforward algorithm for the network by iterating over the fflayer function*/
+/* Applies the Feedforward algorithm to the network by iterating over the fflayer function*/
 double[] feedforward(Neural_Net nnet,double input[]) {
   int output[sizes[hidden+1]];
   for(int a=0;a<sizes[0];a++) {
