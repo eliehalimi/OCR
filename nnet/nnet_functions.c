@@ -96,17 +96,18 @@ void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron
 
 /* Initializes the network by iterating over the layer_init function*/
 
-void net_init(Neural_Net nnet){
-  for(int i=0;i<sizes[0];i++){
-    double input_layer[i].weights[1];
-    input_layer[i].weights={1};
-    input_layer[i].bias=0;
+void net_init(Neural_Net nnet,double input[]){
+  for(int i=0;i<nnet.sizes[0];i++){
+    double nnet.input_layer[i].weights[1];
+    nnet.input_layer[i].weights={1};
+    nnet.input_layer[i].bias=0;
+    nnet.input_layer[i].output=input[i];
   }
-  layer_init(sizes[1],sizes[0],hidden_layers[0],input_layer);
-  for(int k=1;k<hidden;k++){
-    layer_init(sizes[k+1],sizes[k],hidden_layers[k],hidden_layers[k-1]);
+  layer_init(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
+  for(int k=1;k<nnet.hidden;k++){
+    layer_init(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
   }
-  layer_init(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
+  layer_init(nnet.sizes[hidden+1],nnet.sizes[hidden],nnet.output_layer,nnet.hidden_layer[hidden-1]);
 }
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
@@ -123,21 +124,16 @@ void fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron p
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes an result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet, double input[], double output[]) {
-  for(int a=0;a<sizes[0];a++) {
-    input_layer[i]=input[i];
+void feedforward(Neural_Net nnet) {
+  fflayer(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
+  for(int k=1;k<nnet.hidden;k++){
+    fflayer(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
   }
-  fflayer(sizes[1],sizes[0],hidden_layers[0],input_layer);
-  for(int k=1;k<hidden;k++){
-    fflayer(sizes[k+1],sizes[k],hidden_layers[k],hidden_layers[k-1]);
-  }
-  fflayer(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
+  fflayer(nnet.sizes[hidden+1],nnet.sizes[hidden],nnet.output_layer,nnet.hidden_layer[hidden-1]);
   for(int b=0;b<sizes[hidden+1];b++) {
     output_layer[b].output;
   }
 }
-
-
 
 void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size)
 {
@@ -150,7 +146,9 @@ void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size)
 	}	
 }
 
-/*change weight*/ 
+
+/*change weight*/
+
 void weight_neuron_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
 {
 	for (int i = 0; i< layer_size; i++)
