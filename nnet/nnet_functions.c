@@ -35,6 +35,21 @@ double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
 }
 
+/* Computes the cost associated with an output and the expected value using the cross-entropy cost function*/
+
+double CrossEntropy(int size,double output[], double expect[]) {
+  double cost =0;
+  for(int i=0; i<size;i++) {
+    if(output[i]!=0 || expect[i]!=0) {
+      cost += (-expect[i]*log(output[i])-(1-expect[i])*log(1-a));
+    }
+  }
+  return cost;
+}
+
+double error(int size,double output[], double expect[]) {
+  
+}
 /* Network functions */
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
@@ -77,7 +92,7 @@ fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_l
 }
 
 /* Applies the Feedforward algorithm for the network by iterating over the fflayer function*/
-int[] feedforward(Neural_Net nnet,int input[]) {
+double[] feedforward(Neural_Net nnet,double input[]) {
   int output[sizes[hidden+1]];
   for(int a=0;a<sizes[0];a++) {
     input_layer[i]=input[i];
@@ -90,6 +105,7 @@ int[] feedforward(Neural_Net nnet,int input[]) {
   for(int b=0;b<sizes[hidden+1];b++) {
     output[b]=output_layer[b].output;
   }
+  return output;
 }
 
 
