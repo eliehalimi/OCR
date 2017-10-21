@@ -47,9 +47,7 @@ double cross_entropy(int size,double output[], double expect[]) {
   return cost;
 }
 
-/* Computes the error associated with the cost function by subtracting the two matrices.
-
-   TO DO : Matrix Sub */
+/* Computes the error associated with the cost function by subtracting the two matrices. */
 
 void error(int size,double output[], double expect[], double res[]) 
 {	
