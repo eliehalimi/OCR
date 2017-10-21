@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "nnet_prototype.h"
-#include "lib/matrix.h"
+#include "../lib/matrix.h"
 
 /* Misc functions */
 
@@ -47,12 +47,11 @@ double cross_entropy(int size,double output[], double expect[]) {
   return cost;
 }
 
-/* Computes the error associated with the cost function by subtracting the two matrices.
+/* Computes the error associated with the cost function by subtracting the two matrices. */
 
-   TO DO : Matrix Sub */
-
-double error(int size,double output[], double expect[]) {
-  
+void error(int size,double output[], double expect[], double res[]) 
+{	
+	matrix_sub(output, expect, 1, size, res[]); 
 }
 
 /* Network functions */
