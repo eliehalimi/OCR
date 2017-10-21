@@ -9,18 +9,12 @@
 typeof struct {
   double bias;
  
-  double pre_weights[];
-  Sig_Neuron pre_linked[];
-  double size_pre_w;
+  double weights[];
   
-  double back_weights[];
-  Sig_Neuron back_linked[];
-  double size_back_w;
-
-  double new_weight;
   double output;
-  double error[];
+  double error;
 }Sig_Neuron;
+
 /* Base structure of the feedforward neural network using a cross-entropy cost function.*/
 
 typeof struct {

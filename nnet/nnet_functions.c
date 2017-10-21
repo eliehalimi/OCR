@@ -86,15 +86,17 @@ This uses the norm_dist function to increase the training speed as it limits the
 
 void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
   for(int i=0;i<layer_size;i++){
-    double layer[i].weights[prev_layer_size];
+    double layer[i].to_weights[prev_layer_size];
     for(int j=0;j<prev_layer_size;j++) {
-      layer[i].weights[j]= norm_dist();
+      layer[i].to_weights[j]= norm_dist();
     }
     layer[i].biases= norm_dist();
     layer[i].linked= prev;
   }
 }
+
 /* Initializes the network by iterating over the layer_init function*/
+
 void net_init(Neural_Net nnet){
   for(int i=0;i<sizes[0];i++){
     double input_layer[i].weights[1];

@@ -4,11 +4,10 @@
 #include <stdlib.h>
 #include "nnet_functions.h"
 
-/* Base structure of the sigmoid neurone used by the neural network*/
-
-nnet_func(data,) {
-  Neural_Net nnet;
-  weight_init(nnet);
+void training(int epochs,int data_size, double training_data[][], double eta, double lambda = 0.0) {
+  for(int times=0;times<epochs;times++) {
+    
+  }
 }
   
   
