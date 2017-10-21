@@ -23,19 +23,19 @@ double norm_dist() {
   return (val2*fac);
 }
 
-/*Applies the sigmoid function on a value*/
+/*Applies the sigmoid function σ on a value */
  
 double sigmoid(double val) {
   return 1/(1+exp(-val));
 }
 
-/* Applies the derivative of the sigmoid function on a value*/
+/* Applies the derivative of the sigmoid function σ' on a value*/
 
 double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
 }
 
-/* Computes the cost associated with an output and its expected value using the cross-entropy cost function*/
+/* Computes the cost associated with an output and its expected value using the cross-entropy cost function Cce */
 
 double cross_entropy(int size,double output[], double expect[]) {
   double cost =0;
@@ -47,13 +47,12 @@ double cross_entropy(int size,double output[], double expect[]) {
   return cost;
 }
 
-/* Computes the error associated with the cost function by subtracting the to matrixes.
+/* Computes the error associated with the cost function by subtracting the two matrices.
 
    TO DO : Matrix Sub */
 
 double error(int size,double output[], double expect[]) {
   
-  /*Matrix Sub (output[],expect[])*/  
 }
 
 /* Network functions */
@@ -61,7 +60,7 @@ double error(int size,double output[], double expect[]) {
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
 
-layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
+void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
   for(int i=0;i<layer_size;i++){
     double layer[i].weights[prev_layer_size];
     for(int j=0;j<prev_layer_size;j++) {
@@ -72,7 +71,7 @@ layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev
   }
 }
 /* Initializes the network by iterating over the layer_init function*/
-net_init(Neural_Net nnet){
+void net_init(Neural_Net nnet){
   for(int i=0;i<sizes[0];i++){
     double input_layer[i].weights[1];
     input_layer[i].weights[1]={1};
@@ -87,7 +86,7 @@ net_init(Neural_Net nnet){
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
 
-fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[]) {
+void fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[]) {
   for(int i=0;i<layer_size;i++) {
     layer[i].output=0;
     for(int j=0;j<prev_layer_size;j++) {
@@ -99,7 +98,7 @@ fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_l
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes an result array of size [hidden+1].*/
 
-feedforward(Neural_Net nnet, double input[], double output[]) {
+void feedforward(Neural_Net nnet, double input[], double output[]) {
   for(int a=0;a<sizes[0];a++) {
     input_layer[i]=input[i];
   }
@@ -112,5 +111,22 @@ feedforward(Neural_Net nnet, double input[], double output[]) {
     output[b]=output_layer[b].output;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

@@ -89,5 +89,16 @@ void hadamard_product(double mat[], double mat2[], size_t lines, size_t cols, do
 }
 
 
+void matrix_sub(double output[], double expected[],size_t lines, size_t cols, double res[])
+{
+	/* assuming that both matrices have the same number of lines and columns */
 
+	for (size_t i = 0; i < lines; i++)
+	{
+		for (size_t j = 0; j < cols; j++)
+		{
+			res[j + i * cols] = output[j + i * cols] - expected[j + i *cols];
+		}
+	}
+}
 
