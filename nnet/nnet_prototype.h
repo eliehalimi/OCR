@@ -8,7 +8,7 @@
 
 typeof struct {
   double bias;
- 
+  double size_w; 
   double weights[];
   
   double output;

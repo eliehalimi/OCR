@@ -137,6 +137,26 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
   }
 }
 
+
+
+void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size)
+{
+	for (int i = layer_size; i > 0; i--)
+	{
+		for (int j = 0; j < layer[0].size_w; j++)
+		{
+			layer[i].error = layer[i].error * layer[i].weights[j];
+		}
+	}	
+}
+
+
+
+
+
+
+
+
 void backpropagation(Neural_network nnet, double error[], double total_error, int lines, double backpropres[])
 {
 	for (int i = 0; i < lines; i++)
