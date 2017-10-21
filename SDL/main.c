@@ -8,7 +8,6 @@
 # include <stdlib.h>
 # include "pixel_operations.h"
 # include "../Voronoise/voronoise.h"
-# include "../lib/matrix.h"
 
 void print_matrix(int mat[], size_t lines, size_t cols);
 
@@ -112,10 +111,8 @@ int main(int argc, char* argv[])
 	{
 		samples[i] = -1;
 	}
-	/*int nbsamples = */
-	take_samples(img, x, y, samples);		
-
-		
+	int nbsamples = 0;
+	take_samples(img, x, y, samples, &nbsamples);	
 	for (size_t i = 0; i < x * y / 2; i++)
 	{
 		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
@@ -124,8 +121,8 @@ int main(int argc, char* argv[])
 			putpixel(img, samples[i * 2], samples[ 1 + i * 2], pixel);
 		}
 	}
+	printf("nbsamples: %d\n", nbsamples);
 	display_image(img);
 	return 0;
-//	return nbsamples;
 }
 

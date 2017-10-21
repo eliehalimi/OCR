@@ -5,9 +5,8 @@
 #include <SDL/SDL_image.h>
 #include "../SDL/pixel_operations.h"
 
-int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
+void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsamples)
 {
-	//int nbsamples = 0;
 	int k = 0;
 	int is_sample = 0;
 	Uint32 pixel;
@@ -29,7 +28,7 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 					{
 						samples[k * 2] = i;
 						samples[1 + k * 2] = j; 
-						//nbsamples++;
+						(*nbsamples)++;
 						k++;
 						is_sample = 1;
 					}
@@ -42,7 +41,7 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 					{
 						samples[k * 2] = i;
 						samples[1 + k * 2] = j;
-						//nbsamples++;
+						(*nbsamples)++;
 						k++;
 						is_sample = 1;
 					}
@@ -55,7 +54,7 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 					{
 						samples[k * 2] = i;
 						samples[1 + k * 2] = j;
-						//nbsamples++;
+						(*nbsamples)++;
 						k++;
 						is_sample = 1;
 					}
@@ -68,7 +67,7 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 					{
 						samples[k * 2] = i;
 						samples[1 + k * 2] = j;
-						//nbsamples++;
+						(*nbsamples)++;
 						k++;
 						is_sample = 1;
 					}
@@ -77,6 +76,9 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 			is_sample = 0;
 		}
 	}
-	return 0;
-
 }
+
+/*int divide_and_conquer(SDL_Surface *img, size_t x, size_t y, int samples[], int left[], int right[])
+{
+	
+}*/

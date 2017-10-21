@@ -7,6 +7,8 @@
 #include "../SDL/pixel_operations.h"
 
 
-int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[]);
+void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsamples);
+
+//int divide_and_conquer(SDL_Surface *img, size_t x, size_t y, int samples[]);
 
 #endif
