@@ -48,4 +48,12 @@ void print_matrix(double mat[], size_t lines, size_t cols);
 
 void hadamard_product(double mat[], double mat2[], size_t lines, size_t cols, double res[]); 
 
+
+
+/* matrix sub : we need to know the number of lines and the number of columns
+ * Warning : here I am assuming that both matrices have the same number of lines and columns.*/
+
+void matrix_sub(double output[], double expected[],size_t lines, size_t cols, double res[]);
+
+
 #endif /* _MATRIXSTDOPERATIONS_MATRIX_H_ */
