@@ -72,7 +72,11 @@ void accuracy(int size,double output[], double expect[]) {
       correct+=1;
     }
   }
-  
+  printf(%s,"The network had ");
+  printf(%d,correct);
+  printf(%c,'/');
+  printf(%d,size);
+  printf(%s,"correct outputs.");
 }
 
 /*-------------------------- Network functions-------------------------- */
