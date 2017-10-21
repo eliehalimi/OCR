@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "nnet_prototype.h"
-#include "lib/matrix.h"
+#include "../lib/matrix.h"
 
 /* Misc functions */
 
