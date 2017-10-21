@@ -150,32 +150,18 @@ void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size)
 	}	
 }
 
-
-
-
-
-
-
-
-void backpropagation(Neural_network nnet, double error[], double total_error, int lines, double backpropres[])
+/*change weight*/ 
+void weight_neuron_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
 {
-	for (int i = 0; i < lines; i++)
+	for (int i = 0; i< layer_size; i++)
 	{
-		backpropres[i] = -error[i] * nnet[i].output_layer[i];							
-	}	
-}
-
-double new_weight_prop(Neural_network nnet, double backprop[], double eta)
-{
-	double error = 0;
-	for (int i = 0; i < nnet.size; i++)
-	{
-		error += nnet.
+		for (int j =0; j< layer[i].size_w; j++)
+		{
+			layer[i].weights[j] = layer[i].weights[j] - eta * (-next_layer[j].error * 
+				       					layer[i].output);	
+		}
+		
 	}
-
-
 }
-
-
 
 
