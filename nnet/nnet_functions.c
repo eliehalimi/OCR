@@ -111,7 +111,13 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
   }
 }
 
-
+double backpropagation(double error[], int lines, double backpropres[])
+{
+	for (int i = 0; i < lines; i++)
+	{
+						
+	} 
+}
 
 
 
