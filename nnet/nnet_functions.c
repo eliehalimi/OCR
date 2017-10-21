@@ -7,7 +7,7 @@
 #include "nnet_prototype.h"
 #include "../lib/matrix.h"
 
-/* Misc functions */
+/*-------------------------------Support functions------------------------------ */
 
 /* Generates a double following normal distrubution with mean 0 and standard deviation 1. This allows the generation of random nunbers better suited for initial weights as they arefewer values very close to 1 0r 0.*/
 
@@ -37,7 +37,7 @@ double sigmoid_prime(double val) {
 
 /* Computes the cost associated with an output and its expected value using the cross-entropy cost function Cce */
 
-double cross_entropy(int size,double output[], double expect[]) {
+double cross_entropy(int size, double output[], double expect[]) {
   double cost =0;
   for(int i=0; i<size;i++) {
     if(output[i]!=0 || expect[i]!=0) {
@@ -51,10 +51,23 @@ double cross_entropy(int size,double output[], double expect[]) {
 
 void error(int size,double output[], double expect[], double res[]) 
 {	
-	matrix_sub(output, expect, 1, size, res[]); 
+  matrix_sub(output, expect, 1, size, res[]); 
 }
 
-/* Network functions */
+double error_tot(int size, double error[]) {
+  double error_t=0;
+  for(int i=0;i<size;i++) {
+    error_t += error[i];
+  }
+  return error_t;
+}
+
+void accuracy(Neural_Net nnet, double output[], double expect[]) {
+  
+
+}
+
+/*-------------------------- Network functions-------------------------- */
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
@@ -110,7 +123,6 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
     output[b]=output_layer[b].output;
   }
 }
-
 
 
 
