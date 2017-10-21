@@ -47,14 +47,12 @@ double cross_entropy(int size,double output[], double expect[]) {
   return cost;
 }
 
-/* Computes the error associated with the cost function by subtracting the to matrixes.
+/* Computes the error associated with the cost function by subtracting the two matrices.
 
    TO DO : Matrix Sub */
 
 double error(int size,double output[], double expect[]) {
   
-  /*Matrix Sub (output[],expect[])*/  
-  return 0; /*prevents errors*/
 }
 
 /* Network functions */
@@ -114,24 +112,6 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
   }
 }
 
-/* Computes the backprop for the cross entropy cost function by subtracting the output and the expected result */ 
-double backprop_cross_entropy(double output[], int Layer, double expected[], int sample_r)
-{	backprop = 0;
-	for (int i=0; i<Layer; i++)
-	{
-		if (output[i] !=0 || expected[sample_r] !=0)
-			backprop += output[i] - expected[sample_r]; 
-	}
-	return backprop;
-
-}
-/*
-double backprop(double output, double expected)
-{
-	return output(1-output)
-
-}
-*/
 
 
 
