@@ -7,14 +7,15 @@
 
 int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 {
-	int nbsamples = 0;
+	//int nbsamples = 0;
 	int k = 0;
+	int is_sample = 0;
 	Uint32 pixel;
 	Uint8 r, g, b;
 
-	for (int i = 0; i < x; i++)
+	for (size_t i = 0; i < x; i++)
 	{
-		for (int j = 0; j < y; j++)
+		for (size_t j = 0; j < y; j++)
 		{
 			pixel = getpixel(img, i, j);
 			SDL_GetRGB(pixel, img->format, &r, &g, &b);
@@ -24,52 +25,58 @@ int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[])
 				{
 					pixel = getpixel(img, i + 1, j);
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
-					if (r == 0 && g == 0 && b == 0)
+					if (r == 0 && g == 0 && b == 0 && !is_sample)
 					{
-						samples[k * y] = i;
-						samples[1 + k * y] = j; 
-						nbsamples++;
+						samples[k * 2] = i;
+						samples[1 + k * 2] = j; 
+						//nbsamples++;
 						k++;
+						is_sample = 1;
 					}
 				}
 				if (i != 0)
 				{
 					pixel = getpixel(img, i - 1, j);
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
-					if (r == 0 && g == 0 && b == 0)
+					if (r == 0 && g == 0 && b == 0 && !is_sample)
 					{
-						samples[k * y] = i;
-						samples[1 + k * y] = j;
-						nbsamples++;
+						samples[k * 2] = i;
+						samples[1 + k * 2] = j;
+						//nbsamples++;
 						k++;
+						is_sample = 1;
 					}
 				}
 				if (j != y - 1)
 				{
 					pixel = getpixel(img, i, j + 1);
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
-					if (r == 0 && g == 0 && b == 0)
+					if (r == 0 && g == 0 && b == 0 && !is_sample)
 					{
-						samples[k * y] = i;
-						samples[1 + k * y] = j;
-						nbsamples++;
+						samples[k * 2] = i;
+						samples[1 + k * 2] = j;
+						//nbsamples++;
 						k++;
+						is_sample = 1;
 					}
 				}
 				if (j != 0)
 				{
-					pixel = getpixel(img, i, j + 1);
+					pixel = getpixel(img, i, j - 1);
 					SDL_GetRGB(pixel, img->format, &r, &g, &b);
-					if (r == 0 && g == 0 && b == 0)
+					if (r == 0 && g == 0 && b == 0 && !is_sample)
 					{
-						samples[k * y] = i;
-						samples[1 + k * y] = j;
-						nbsamples++;
+						samples[k * 2] = i;
+						samples[1 + k * 2] = j;
+						//nbsamples++;
 						k++;
+						is_sample = 1;
 					}
 				}
 			}
+			is_sample = 0;
 		}
 	}
-	return nbsamples;
+	return 0;
+
 }

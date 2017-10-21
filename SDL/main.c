@@ -8,6 +8,10 @@
 # include <stdlib.h>
 # include "pixel_operations.h"
 # include "../Voronoise/voronoise.h"
+# include "../lib/matrix.h"
+
+void print_matrix(int mat[], size_t lines, size_t cols);
+
 
 void wait_for_keypressed(void) {
   SDL_Event             event;
@@ -81,9 +85,9 @@ int main(int argc, char* argv[])
 		return -1;
 	SDL_Surface* img = load_image(argv[1]);
 	Uint8 r,g,b;
-	for (int i =0; i < img->w; i++)
+	for (int i = 0; i < img->w; i++)
 	{
-		for (int j =0; j< img->h; j++)
+		for (int j = 0; j < img->h; j++)
 		{
 			Uint32 pixel = getpixel(img, i, j);
 			SDL_GetRGB(pixel, img -> format, &r, &g, &b);
@@ -100,19 +104,28 @@ int main(int argc, char* argv[])
 			putpixel(img, i, j, pixel);
 		}
 	}
-	display_image(img);
-	
-	int x = img->w;
-	int y = img->h;
+	display_image(img);	
+	size_t x = img->w;
+	size_t y = img->h;
 	int samples[x * y];
-	int nbsamples = take_samples(img, x, y, samples);
-	for (int i =0; i < x * y / 2; i++)
+	for (size_t i = 0; i < x * y; i++)
+	{
+		samples[i] = -1;
+	}
+	/*int nbsamples = */
+	take_samples(img, x, y, samples);		
+
+		
+	for (size_t i = 0; i < x * y / 2; i++)
 	{
 		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
-		putpixel(img,samples[i * 2],samples[1 + i * 2],pixel);
+		if (samples[i * 2] != -1 && samples[1 + i * 2] != -1)
+		{
+			putpixel(img, samples[i * 2], samples[ 1 + i * 2], pixel);
+		}
 	}
 	display_image(img);
-	
-	return nbsamples;
+	return 0;
+//	return nbsamples;
 }
 
