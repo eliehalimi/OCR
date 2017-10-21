@@ -26,9 +26,10 @@ double sigmoid_prime(double val)
 double cross_entropy(int size,double output[], double expect[]);
 
 
-/* Computes the error associated with the cost function by subtracting the to matrixes.*/
+/* Computes the error associated with the cost function by subtracting the to matrices.*/
 
-double error(int size,double output[], double expect[]);
+void error(int size,double output[], double expect[], double res[]);
+
 
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).

@@ -51,8 +51,9 @@ double cross_entropy(int size,double output[], double expect[]) {
 
    TO DO : Matrix Sub */
 
-double error(int size,double output[], double expect[]) {
-  
+void error(int size,double output[], double expect[], double res[]) 
+{	
+	matrix_sub(output, expect, 1, size, res[]); 
 }
 
 /* Network functions */
