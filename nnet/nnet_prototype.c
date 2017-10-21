@@ -5,6 +5,7 @@
 #include "nnet_functions.h"
 
 void training(int epochs,int data_size, double training_data[][], double eta, double lambda = 0.0) {
+  Neural_Net nnet;
   for(int times=0;times<epochs;times++) {
     
   }

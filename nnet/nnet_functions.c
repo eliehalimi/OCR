@@ -101,7 +101,6 @@ void net_init(Neural_Net nnet,double input[]){
     double nnet.input_layer[i].weights[1];
     nnet.input_layer[i].weights={1};
     nnet.input_layer[i].bias=0;
-    nnet.input_layer[i].output=input[i];
   }
   layer_init(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
   for(int k=1;k<nnet.hidden;k++){
@@ -124,7 +123,10 @@ void fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron p
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes an result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet) {
+void feedforward(Neural_Net nnet, int input[]) {
+  for(int a=0;a<nnet.sizes[0];a++) {
+  nnet.input_layer[i].output=input[i];  
+  }
   fflayer(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
   for(int k=1;k<nnet.hidden;k++){
     fflayer(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
@@ -135,31 +137,51 @@ void feedforward(Neural_Net nnet) {
   }
 }
 
+/* changes error of all neurons in a layer */
+
 void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size)
 {
-	for (int i = layer_size; i > 0; i--)
-	{
-		for (int j = 0; j < layer[0].size_w; j++)
-		{
-			layer[i].error = layer[i].error * layer[i].weights[j];
-		}
-	}	
+    for (int i = layer_size; i > 0; i--)
+    {
+        for (int j = 0; j < layer[0].size_w; j++)
+        {
+            layer[i].error = layer[i].error * layer[i].weights[j];
+        }
+    }
+}
+
+/* changes error of all layers of neurons */
+
+void backprop(Neural_net nnet)
+{
+    for (int i = nnet.hidden; i>0; i--)
+    {
+        backprop_layer(nnet, layer, layer.sizes[i]);
+    }
 }
 
 
-/*change weight*/
+
+/* change weight */
 
 void weight_neuron_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
 {
-	for (int i = 0; i< layer_size; i++)
-	{
-		for (int j =0; j< layer[i].size_w; j++)
-		{
-			layer[i].weights[j] = layer[i].weights[j] - eta * (-next_layer[j].error * 
-				       					layer[i].output);	
-		}
-		
-	}
+    for (int i = 0; i< layer_size; i++)
+    {
+        for (int j =0; j< layer[i].size_w; j++)
+        {
+            layer[i].weights[j] = layer[i].weights[j] - eta * (-next_layer[j].error * 
+                                           layer[i].output);
+        }
+
+    }
 }
 
-
+void change_weight(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size)
+{
+    for (int i =1; i< layer_size-1; i++)
+    {
+        weight_neuron_layer(nnet, eta, layer, layer_size, 
+                //TODO add second neuron (next layer) with size)
+    }
+}
