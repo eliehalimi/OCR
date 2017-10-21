@@ -86,12 +86,11 @@ This uses the norm_dist function to increase the training speed as it limits the
 
 void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
   for(int i=0;i<layer_size;i++){
-    double layer[i].to_weights[prev_layer_size];
+    double layer[i].weights[prev_layer_size];
     for(int j=0;j<prev_layer_size;j++) {
-      layer[i].to_weights[j]= norm_dist();
+      layer[i].weights[j]= norm_dist();
     }
     layer[i].biases= norm_dist();
-    layer[i].linked= prev;
   }
 }
 
@@ -100,7 +99,7 @@ void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron
 void net_init(Neural_Net nnet){
   for(int i=0;i<sizes[0];i++){
     double input_layer[i].weights[1];
-    input_layer[i].weights[1]={1};
+    input_layer[i].weights={1};
     input_layer[i].bias=0;
   }
   layer_init(sizes[1],sizes[0],hidden_layers[0],input_layer);
@@ -116,7 +115,7 @@ void fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron p
   for(int i=0;i<layer_size;i++) {
     layer[i].output=0;
     for(int j=0;j<prev_layer_size;j++) {
-      layer[i].output += layer[i].weights[j]*prev_layer[i].output;
+      layer[i].output += prev_layer[j].weights[i] * prev_layer[j].output[i];
     }
     layer[i].output= sigmoid(layer[i].output+layer[i].bias);
   }
@@ -134,7 +133,7 @@ void feedforward(Neural_Net nnet, double input[], double output[]) {
   }
   fflayer(sizes[hidden+1],sizes[hidden],output_layer,hidden_layer[hidden-1]);
   for(int b=0;b<sizes[hidden+1];b++) {
-    output[b]=output_layer[b].output;
+    output_layer[b].output;
   }
 }
 
