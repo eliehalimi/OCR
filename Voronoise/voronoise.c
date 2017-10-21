@@ -93,9 +93,7 @@ void cut(int samples[], int nbsamples, int left[], int *nbleft, int right[], int
 	}
 	*nbleft = nbsamples / 2;
 	*nbright = nbsamples / 2 + 1;
-}
-
-void 
+} 
 
 void __divacon(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsamples)
 {
