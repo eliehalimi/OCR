@@ -9,6 +9,8 @@
 
 void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsamples);
 
-//int divide_and_conquer(SDL_Surface *img, size_t x, size_t y, int samples[]);
+void divacon(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsamples);
+
+void __divacon(SDL_Surface *img, size_t x, size_t y, int left[], int right[], int nbleft, int nbright);
 
 #endif

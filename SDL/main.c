@@ -112,13 +112,18 @@ int main(int argc, char* argv[])
 		samples[i] = -1;
 	}
 	int nbsamples = 0;
-	take_samples(img, x, y, samples, &nbsamples);	
-	for (size_t i = 0; i < x * y / 2; i++)
+	take_samples(img, x, y, samples, &nbsamples);
+	int samples2[nbsamples * 2];
+	for (int i = 0; i < nbsamples * 2; i++)
+	{
+		samples2[i] = samples[i];
+	}
+	for (size_t i = 0; i < nbsamples; i++)
 	{
 		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
-		if (samples[i * 2] != -1 && samples[1 + i * 2] != -1)
+		if (samples2[i * 2] != -1 && samples2[1 + i * 2] != -1)
 		{
-			putpixel(img, samples[i * 2], samples[ 1 + i * 2], pixel);
+			putpixel(img, samples2[i * 2], samples2[ 1 + i * 2], pixel);
 		}
 	}
 	printf("nbsamples: %d\n", nbsamples);
