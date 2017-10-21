@@ -5,7 +5,7 @@
 #include "SDL/pixel_operations.h"
 #include "SDL/pixel.operations.c"
 
-int take_samples(SDL_Surface *img, size_t x, size_t y)
+int take_samples(SDL_Surface *img, size_t x, size_t y, int samples[][])
 {
 	int nbsamples = 0;
 	int k = 0;
