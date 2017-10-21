@@ -1,13 +1,13 @@
-#include <stdio.h>
+#include <stdio.h>478
 #include <stdlib.h>
 #include <string.h>
 #include <SDL.h>
 #include "SDL/pixel_operations.h"
 #include "SDL/pixel.operations.c"
 
-int[][] take_samples(SDL_Surface *img, size_t x, size_t y)
+int take_samples(SDL_Surface *img, size_t x, size_t y)
 {
-	int samples[x * y / 2][1];
+	int nbsamples = 0;
 	int k = 0;
 	Uint32 pixel;
 	Uint8 r, g, b;
@@ -28,6 +28,7 @@ int[][] take_samples(SDL_Surface *img, size_t x, size_t y)
 					{
 						samples[k][0] = i;
 						samples[k][1] = j;
+						nbsamples++;
 						k++;
 					}
 				}
@@ -39,6 +40,7 @@ int[][] take_samples(SDL_Surface *img, size_t x, size_t y)
 					{
 						samples[k][0] = i;
 						samples[k][1] = j;
+						nbsamples++;
 						k++;
 					}
 				}
@@ -50,6 +52,7 @@ int[][] take_samples(SDL_Surface *img, size_t x, size_t y)
 					{
 						samples[k][0] = i;
 						samples[k][1] = j;
+						nbsamples++;
 						k++;
 					}
 				}
@@ -61,11 +64,12 @@ int[][] take_samples(SDL_Surface *img, size_t x, size_t y)
 					{
 						samples[k][0] = i;
 						samples[k][1] = j;
+						nbsamples++;
 						k++;
 					}
 				}
 			}
 		}
 	}
-	return samples;
+	return nbsamples;
 }
