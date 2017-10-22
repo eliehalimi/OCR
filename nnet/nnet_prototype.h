@@ -20,7 +20,8 @@ typeof struct {
 typeof struct {
   int sizes[];
   int hidden;
-
+  double tot_error;
+  
   Sig_Neuron input_layer[sizes[0]];
   Sig_Neuron hidden_layers[hidden][];
   for(i=0;i<hidden;i++) {

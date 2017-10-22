@@ -35,50 +35,6 @@ double sigmoid_prime(double val) {
   return sigmoid(val)*1-sigmoid(val);
 }
 
-/* Computes the cost associated with an output and its expected value using the cross-entropy cost function Cce */
-
-double cross_entropy(int size, double output[], double expect[]) {
-  double cost =0;
-  for(int i=0; i<size;i++) {
-    if(output[i]!=0 || expect[i]!=0) {
-      cost += (-expect[i]*log(output[i])-(1-expect[i])*log(1-a));
-    }
-  }
-  return cost;
-}
-
-/* Computes the error associated with the cost function by subtracting the two matrices. */
-
-void error(int size,double output[], double expect[], double res[]) 
-{	
-  matrix_sub(output, expect, 1, size, res[]); 
-}
-
-/* Computes the total error of the network */
-
-double error_tot(int size, double error[]) {
-  double error_t=0;
-  for(int i=0;i<size;i++) {
-    error_t += error[i];
-  }
-  return error_t;
-}
-
-/* Prints the number of correct guesses of the neural network for a test*/
-void accuracy(int size,double output[], double expect[]) {
-  int correct =0;
-  for(int i=0;i<size;i++) {
-    if(output[i]==hidden[i]) {
-      correct+=1;
-    }
-  }
-  printf(%s,"The network had ");
-  printf(%d,correct);
-  printf(%c,'/');
-  printf(%d,size);
-  printf(%s,"correct outputs.");
-}
-
 /*-------------------------- Network functions-------------------------- */
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
@@ -96,7 +52,7 @@ void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron
 
 /* Initializes the network by iterating over the layer_init function*/
 
-void net_init(Neural_Net nnet,double input[]){
+void net_init(Neural_Net nnet){
   for(int i=0;i<nnet.sizes[0];i++){
     double nnet.input_layer[i].weights[1];
     nnet.input_layer[i].weights={1};
@@ -132,9 +88,34 @@ void feedforward(Neural_Net nnet, int input[]) {
     fflayer(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
   }
   fflayer(nnet.sizes[hidden+1],nnet.sizes[hidden],nnet.output_layer,nnet.hidden_layer[hidden-1]);
-  for(int b=0;b<sizes[hidden+1];b++) {
-    output_layer[b].output;
+}
+
+/* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
+
+double success_and_errors(Neural_Net nnet, double expect[]) {
+  double errors[nnet.sizes[hidden+1]];
+  double output[nnet.sizes[hidden+1]];
+  int correct =0;
+  double cost =0;
+  nnet.tot_error=0;
+  for(int i=0; i<nnet.sizes[hidden+1];i++) {
+    output[i]=nnet.output_layer[i].output;
   }
+  matrix_sub(output, expect, 1, nnet.sizes[hidden+1], errors);
+  for(int i=0; i<nnet.sizes[hidden+1];i++) {
+    nnet.output_layer[i].errors= errors[i];
+    nnet.tot_error += errors[i];
+    if(nnet.output_layer[i].output!=0 || expect[i]!=0) {
+      cost += (-nnet.output_layer[i].output*log(nnet.output_layer[i].output)-(1-nnet.output_layer[i].output)*log(1-a));
+      correct+=1;
+    }
+  }
+  printf(%s,"The network had ");
+  printf(%d,correct);
+  printf(%c,'/');
+  printf(%d,nnet.sizes[hidden+1]);
+  printf(%s,"correct outputs so its total cost is ");
+  printf(%.5f,cost);
 }
 
 /* changes error of all neurons in a layer */
