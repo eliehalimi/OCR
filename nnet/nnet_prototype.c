@@ -24,9 +24,23 @@ void load_net(char *path) {
 		exit(1);
 	}
 	char *c;
+	int counter = 0;
+	int hidden = 0;
+	int sizes[];
+	int *size; 
+	size = sizes;
 	while(fscanf(f, "%s", &c) != EOF)
-		printf("%c", c);
+	{
+		if (counter == 0)
+			hidden = (int)c;
+			counter +=1;
+		if (hidden != 0)
+		{
+			*(size +counter-1) = (int)c;		
+		}
+	}
 	fclose(f);
+	init(sizes, hidden);
 }
 
 /* Trains a neural network.
