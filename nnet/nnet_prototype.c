@@ -14,9 +14,10 @@ void init(int sizes[], int hidden) {
   net_init(nnet);
 }
 
-void load_net(path) {
+load_net(char path[]) {
 
 }
+
 /* Trains a neural network.
    Inputs : training_data = list of inputs converted to double arrays, expect_data  list of correct data also converted and eta=learning rate */ 
 
@@ -30,5 +31,8 @@ void training(Neural_Net nnet, int epochs, double training_data[][], double expe
     change_weight(nnet,eta);
   }
 }
-  
-  
+
+void save_net(Neural_Net nnet, char path[]) {
+
+
+}
