@@ -13,10 +13,11 @@ void init(size_t* sizes_begin, size_t* sizes_end, int hidden) {
   nnet.sizes_end=sizes_end;
   size_t sum_sizes=0;
   for(size_t i=0;i<sizes_end-sizes_begin,i++) {
-    sum_sizes += *sizes_begin+1;
+    sum_sizes += *(sizes_begin+i);
   }
-  nnet.layers_begin= (Sig_Neuron*) malloc(sizeof(Sig_Neuron)*sum_sizes);
-  nnet.layers_end=layers_begin+sum_sizes*sizeof(Sig_Neuron);
+  // Allocates the memory for the whole network by allocating the size of neuron * the total number of neuron in the network */
+  nnet.layers_begin = (Sig_Neuron*) malloc(sizeof(Sig_Neuron)*sum_sizes);
+  nnet.layers_end = layers_begin+sum_sizes;
   net_init(nnet);
 }
 

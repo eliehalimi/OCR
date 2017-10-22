@@ -41,7 +41,7 @@ typedef struct {
   /* Computed during feedforward */
   double output;
   
-  /* Computed during backpropagation */
+  /* Computed during success_and_errors or backpropagation */
   double error;
   
 }Sig_Neuron;
@@ -50,8 +50,8 @@ typedef struct {
 
 typedef struct {
   /* given as arguments */
-  int* sizes_begin;
-  int* sizes_end;
+  size_t* sizes_begin;
+  size_t* sizes_end;
   
   /* initialized at creation */
   Sig_Neuron* layers_begin;
