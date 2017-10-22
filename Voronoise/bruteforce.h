@@ -12,6 +12,6 @@ int sq(int x, int y);
 
 void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsamples, int lines[]);
 
-void drawgreen(SDL_surface *img, size_t x, size_t y, int samples[], int nbsamples, int lines[]);
+void drawgreen(SDL_Surface *img, size_t x, size_t y, int lines[]);
 
 

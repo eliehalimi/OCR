@@ -18,13 +18,13 @@ void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsa
         {
             pixel = getpixel(img, i, j);
             SDL_GetRGB(pixel, img->format, &r, &g, &b);
-            if (r == 255 && g == 255 && b == 255)
+            if (r == 0 && g == 0 && b == 0)
             {
                 if (i != x - 1)
                 {
                     pixel = getpixel(img, i + 1, j);
                     SDL_GetRGB(pixel, img->format, &r, &g, &b);
-                    if (r == 0 && g == 0 && b == 0 && !is_sample)
+                    if (r == 255 && g == 255 && b == 255 && !is_sample)
                     {
                         samples[k * 2] = i;
                         samples[1 + k * 2] = j;
@@ -37,7 +37,7 @@ void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsa
                 {
                     pixel = getpixel(img, i - 1, j);
                     SDL_GetRGB(pixel, img->format, &r, &g, &b);
-                    if (r == 0 && g == 0 && b == 0 && !is_sample)
+                    if (r == 255 && g == 255 && b == 255 && !is_sample)
                     {
                         samples[k * 2] = i;
                         samples[1 + k * 2] = j;
@@ -50,7 +50,7 @@ void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsa
                 {
                     pixel = getpixel(img, i, j + 1);
                     SDL_GetRGB(pixel, img->format, &r, &g, &b);
-                    if (r == 0 && g == 0 && b == 0 && !is_sample)
+                    if (r == 255 && g == 255 && b == 255 && !is_sample)
                     {
                         samples[k * 2] = i;
                         samples[1 + k * 2] = j;
@@ -63,7 +63,7 @@ void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsa
                 {
                     pixel = getpixel(img, i, j - 1);
                     SDL_GetRGB(pixel, img->format, &r, &g, &b);
-                    if (r == 0 && g == 0 && b == 0 && !is_sample)
+                    if (r == 255 && g == 255 && b == 255 && !is_sample)
                     {
                         samples[k * 2] = i;
                         samples[1 + k * 2] = j;
