@@ -107,7 +107,7 @@ void feedforward(Neural_Net nnet, int* input_begin) {
   }
 }
 
-/* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
+/* Computes the accuracy,the total error and the total cost of the network. It also sets the errors of the neurons of the output layer.*/
 
 void success_and_errors(Neural_Net nnet, double* expect_begin) {
   int correct =0;
@@ -134,11 +134,10 @@ void success_and_errors(Neural_Net nnet, double* expect_begin) {
 
 /* Computes and changes the error of all neurons in a layer */
 
-void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
-{
-  for (int i=0;i< layer_size;i++) {
-    for (int j=0;j<layer[0].next_layer_size; j++) {
-      layer[i].error = next_layer[j].error * layer[i].weights[j];
+void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end) {
+  for(size_t i=0;i<layer_end-layer_begin;i++) {
+    for(size_t j=0;j<(next_layer_end-layer_end+1);j++) {
+      *(layer_begin+i).error = *(next_layer_begin+j).error* *(layer_begin+i).*(weights_begin+j);
     }
   }
 }
@@ -147,11 +146,17 @@ void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, 
 
 void backprop(Neural_net nnet)
 {
-  backprop_layer(nnet, nnet.hidden_layers[hidden],nnet.sizes[hidden+1], nnet.output_layer[],nnet.sizes[hidden+2])
-  for (int i = nnet.hidden; i>0; i--) {
-    backprop_layer(nnet, nnet.hidden_layers[i-1],nnet.hidden_layers[i], nnet.sizes[i],nnetsizes[i+1]);
+  size_t k=0;
+  Sig_Neuron* x;
+  Sig_Neuron* y= nnet.layers_begin;
+  Sig_Neuron* z;
+  while(k<nnet.sizes_end-nnet.sizes_begin) {
+    x=y;
+    y=nnet.layers_begin+*(nnet.sizes_begin+k)-1;
+    z=nnet.layers_begin+*(nnet.sizes_begin+k+1);
+    backprop(x,y,z);
+    k++;
   }
-  backprop_layer(nnet,input_layer,nnet.hidden_layers[0],nnet.sizes[0],nnet.sizes[1]);
 }
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
