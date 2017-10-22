@@ -4,11 +4,11 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include "../SDL/pixel_operations.h"
-#include "dynarray.h"
+#include "dynarray.c"
 
 void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List l)
 {
-    if !(i < 0 || j < 0 || i >= x || j >= y && !search_l_coords(l, i, j))
+    if !(i < 0 || j < 0 || i >= x || j >= y)
     {
         Uint32 pixel = getpixel(img, i, j);
         Uint8 r, g, b;
