@@ -6,9 +6,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*-------------------------------Support functions------------------------------ */
+
 /* Generates a double following normal distrubution with mean 0 and standard deviation 1. This allows the generation of random nunbers better suited for initial weights as they arefewer values very close to 1 0r 0.*/
 
-double norm_dist();
+double norm_dist()
 
 
 /*Applies the sigmoid function σ on a value */
@@ -18,19 +20,11 @@ double sigmoid(double val);
 
 /* Applies the derivative of the sigmoid function σ' on a value*/
 
-double sigmoid_prime(double val)
+double sigmoid_prime(double val);
 
 
-/* Computes the cost associated with an output and its expected value using the cross-entropy cost function Cce */
 
-double cross_entropy(int size,double output[], double expect[]);
-
-
-/* Computes the error associated with the cost function by subtracting the to matrices.*/
-
-void error(int size,double output[], double expect[], double res[]);
-
-
+/*-------------------------- Network functions-------------------------- */
 
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
@@ -39,26 +33,44 @@ void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron
 
 
 /* Initializes the network by iterating over the layer_init function*/
+
 void net_init(Neural_Net nnet);
 
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
 
-void fflayer(int layer_size; int prev_layer_size;Sig_Neuron layer[],Sig_Neuron prev_layer[])
+void fflayer(int layer_size; int prev_layer_size,Sig_Neuron layer[] ,Sig_Neuron prev_layer[]);
 
 
-/* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes an result array of size [hidden+1].*/
+/* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes a result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet, double input[], double output[]);
-
-
-
-
-/* Computes the backprop for the cross entropy cost function by subtracting the output and the expected result */ 
-double backprop_cross_entropy(double output[], int Layer, double expected[], int sample_r);
+void feedforward(Neural_Net nnet, int input[]);
 
 
 
+/* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
 
+double success_and_errors(Neural_Net nnet, double expect[]);
+
+
+/* Computes and changes the error of all neurons in a layer */
+
+void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size);
+
+
+/* Computes and changes error of all neurons in the network by iterating over backprop_layer */
+
+void backprop(Neural_net nnet);
+
+
+/* Computes the new weights of all neurons in a layer and updates their weights */
+
+void change_weight_layer(double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size);
+
+
+
+/* Computes the new weights of all neurons in the network and updates their weights by iterating over change_weight_layer */
+
+void change_weight(Neural_net nnet, double eta);
 
 #endif
