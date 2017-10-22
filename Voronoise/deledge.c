@@ -8,7 +8,7 @@
 
 void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List l)
 {
-    if !(i < 0 || j < 0 || i >= x || j >= y)
+    if !(i < 0 || j < 0 || i >= x || j >= y && !search_l_coords(l, i, j))
     {
         Uint32 pixel = getpixel(img, i, j);
         Uint8 r, g, b;

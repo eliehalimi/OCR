@@ -29,3 +29,27 @@ void free_l(List *l)
     l->list = NULL;
     l->used = l->size = 0;
 }
+
+int search_l(List *l, int e)
+{
+    for (int i = 0; i < l -> size - 1; i++)
+    {
+        if (l -> list[i] == e)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int search_l_coords(List *l, int x, int y)
+{
+    for (int i = 0; i < l -> size - 2; i++)
+    {
+        if (l -> list[i] == x && l -> list[i + 1] == y)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
