@@ -77,7 +77,7 @@ void fflayer(int layer_size; int prev_layer_size,Sig_Neuron layer[] ,Sig_Neuron 
   }
 }
 
-/* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes an result array of size [hidden+1].*/
+/* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes a result array of size [hidden+1].*/
 
 void feedforward(Neural_Net nnet, int input[]) {
   for(int a=0;a<nnet.sizes[0];a++) {
