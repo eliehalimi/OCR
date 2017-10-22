@@ -42,7 +42,9 @@ This uses the norm_dist function to increase the training speed as it limits the
 
 void layer_init(int* layer_begin,int* layer_end,Sig_Neuron* prev_layer_end){
   for(int i=0;i<layer_end-layer_begin;i++){
-    for(int j=0;j<prev_layer_end-(layer_end+1);j++) {
+    *(layer_begin+i).weights_begin = malloc((prev_layer_end-layer_end+1)*sizeof(double));
+    *(layer_begin+i).weights_end = weights_begin+(prev_layer_end-layer_end+1)*sizeof(double);
+    for(int j=0;j<prev_layer_end-layer_end+1;j++) {
       *(layer_end+1+i).*(weights_begin+j)= norm_dist(); 
     }
     *(layer_end+1+i).biases= norm_dist();
