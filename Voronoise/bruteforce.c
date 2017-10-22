@@ -19,7 +19,6 @@ int sq(int x, int y)
 
 void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsamples, int lines[])
 {
-  int around = 0;
   int exit =0;
   int d;
   int d2;
@@ -32,7 +31,7 @@ void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsampl
 	  Uint32 pixel = getpixel(img, i, j);
 	  SDL_GetRGB(pixel, img->format,&r,&g,&b);
 	  exit = 0;
-	  if (&r == 255)
+	  if (r == 0)
 	    {
 	      exit = 1;
 	    }
@@ -40,22 +39,22 @@ void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsampl
 	    {
 	      d = sq(samples[0],samples[1]);
 	      p = 0;
-	      for (size_t k = 0; k < nbsamples; k++)
+	      for (int k = 0; k < nbsamples; k++)
 		{
-		  d2 = sq(samples[k*2], samples[2*k+1]);
+		  d2 = sq(i - samples[k*2],j - samples[2*k+1]);
 		  if (d2< d)
 		    {
 		      d = d2;
 		      p = k;
 		    }
 		}
-	      lines[j,i*size] = p;
+	      lines[j+i*y] = p;
 	    }
 	}
     }
 }
 
-void drawgreen(SDL_surface *img, size_t x, size_t y, int samples[], int nbsamples, int lines[])
+void drawgreen(SDL_Surface *img, size_t x, size_t y, int lines[])
 {
   int left  = 0;
   int right = 0;
@@ -65,6 +64,10 @@ void drawgreen(SDL_surface *img, size_t x, size_t y, int samples[], int nbsample
     {
       for (size_t j = 0; j< y; j++)
 	{
+	  left = 0;
+	  right = 0;
+	  up = 0;
+	  down = 0;
 	  if (lines[j + i*y] != -1)
 	    {
 	      if (j+1 < y)

@@ -40,11 +40,14 @@ double sigmoid_prime(double val) {
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
 
-void layer_init(int* layer_begin,int* layer_end,Sig_Neuron* prev_layer_end){
+void layer_init(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* prev_layer_begin){
   for(int i=0;i<layer_end-layer_begin;i++){
-    *(layer_begin+i).weights_begin = malloc((prev_layer_end-layer_end+1)*sizeof(double));
-    *(layer_begin+i).weights_end = weights_begin+(prev_layer_end-layer_end+1)*sizeof(double);
-    for(int j=0;j<prev_layer_end-layer_end+1;j++) {
+    /* Allocates memory for the list of weights associated to this neurons (weights of the links going to this neuron). 
+       Each weight is a double and there are the same number of weights as neuron in the previous layer which is prev_layer_end - prev_layer_begin.
+       One can remark that prev_layer_end = layer_begin-1 which gives us the following expression.*/
+    *(layer_begin+i).weights_begin = malloc((layer_begin-1-prev_layer_begin)*sizeof(double));
+    *(layer_begin+i).weights_end = weights_begin+(layer_begin-1-prev_layer_begin);
+    for(int j=0;j<(layer_begin-1-prev_layer_begin);j++) {
       *(layer_end+1+i).*(weights_begin+j)= norm_dist(); 
     }
     *(layer_end+1+i).biases= norm_dist();
@@ -54,60 +57,70 @@ void layer_init(int* layer_begin,int* layer_end,Sig_Neuron* prev_layer_end){
 /* Initializes the network by iterating over the layer_init function*/
 
 void net_init(Neural_Net nnet){
-  for(size_t  i=0;i<*(sizes_begin);i++){
-    double nnet.input_layer[i].weights[1];
-    nnet.input_layer[i].weights={1};
-    nnet.input_layer[i].bias=0;
+  for(size_t i=0;i<*(nnet.sizes_begin);i++) {
+    *(nnet.layers_begin+i).weights_begin = malloc(sizeof(double));
+    *(nnet.layers_begin+i).weights_end = *(nnet.layers_begin+i).weights_begin+1;
+    *(nnet.layers_begin+i).*weights_begin = 1;
+    *(nnet.layers_begin+i).bias = 0;
   }
-  layer_init(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
-  for(int k=1;k<nnet.hidden;k++){
-    layer_init(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
+  size_t k=1;
+  Sig_Neuron* x;
+  Sig_Neuron* y= nnet.layers_begin+*(nnet.sizes_begin);
+  Sig_Neuron* z;
+  while(k<nnet.sizes_end-nnet.sizes_begin) {
+    x=y;
+    y=nnet.layers_begin+*(nnet.sizes_begin+k);
+    z=nnet.layers_begin+*(nnet.sizes_begin+k+1)-1;
+    layer_init(y,z,x);
+    k++;
   }
-  layer_init(nnet.sizes[hidden+1],nnet.sizes[hidden],nnet.output_layer,nnet.hidden_layer[hidden-1]);
 }
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
 
-void fflayer(int layer_size; int prev_layer_size,Sig_Neuron layer[] ,Sig_Neuron prev_layer[]) {
-  for(int i=0;i<layer_size;i++) {
-    layer[i].output=0;
-    for(int j=0;j<prev_layer_size;j++) {
-      layer[i].output += prev_layer[j].weights[i] * prev_layer[j].output[i];
+void fflayer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* prev_layer_begin) {
+  for(size_t i=0;i<layer_end-layer_begin;i++) {
+    *(layer_begin+i).output=0;
+    for(size_t j=0;j<(layer_begin-1-prev_layer_begin);j++) {
+      *(layer_begin+i).output += *(prev_layer_begin+j).output * (prev_layer_begin+j).*(weights_begin+i);
     }
-    layer[i].output= sigmoid(layer[i].output+layer[i].bias);
+    *(layer_begin+i).output= sigmoid(*(layer_begin+i).output+*(layer_begin+i).bias);
   }
 }
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes a result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet, int input[]) {
-  for(int a=0;a<nnet.sizes[0];a++) {
-  nnet.input_layer[i].output=input[i];  
+void feedforward(Neural_Net nnet, int* input_begin) {
+  for(size_t i=0;i<*(nnet.sizes);i++) {
+    *(nnet.layers_begin+i).output=*(input_begin+i);  
   }
-  fflayer(nnet.sizes[1],nnet.sizes[0],nnet.hidden_layers[0],nnet.input_layer);
-  for(int k=1;k<nnet.hidden;k++){
-    fflayer(nnet.sizes[k+1],nnet.sizes[k],nnet.hidden_layers[k],nnet.hidden_layers[k-1]);
+  size_t k=1;
+  Sig_Neuron* x;
+  Sig_Neuron* y= nnet.layers_begin+*(nnet.sizes_begin);
+  Sig_Neuron* z;
+  while(k<nnet.sizes_end-nnet.sizes_begin) {
+    x=y;
+    y=nnet.layers_begin+*(nnet.sizes_begin+k);
+    z=nnet.layers_begin+*(nnet.sizes_begin+k+1)-1;
+    fflayer(y,z,x);
+    k++;
   }
-  fflayer(nnet.sizes[hidden+1],nnet.sizes[hidden],nnet.output_layer,nnet.hidden_layer[hidden-1]);
 }
 
-/* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
+/* Computes the accuracy,the total error and the total cost of the network. It also sets the errors of the neurons of the output layer.*/
 
-void success_and_errors(Neural_Net nnet, double expect[]) {
-  double errors[nnet.sizes[hidden+2]];
-  double output[nnet.sizes[hidden+2]];
+void success_and_errors(Neural_Net nnet, double* expect_begin) {
   int correct =0;
   double cost =0;
+  Sig_Neuron* actual=layers_end-*(nnet.sizes_end-1);
   nnet.tot_error=0;
-  for(int i=0; i<nnet.sizes[hidden+2];i++) {
-    output[i]=nnet.output_layer[i].output;
-  }
+  
   matrix_sub(output, expect, 1, nnet.sizes[hidden+2], errors);
-  for(int i=0; i<nnet.sizes[hidden+2];i++) {
-    nnet.output_layer[i].errors= errors[i];
-    nnet.tot_error += errors[i];
-    if(nnet.output_layer[i].output!=0 || expect[i]!=0) {
-      cost += (-nnet.output_layer[i].output*log(nnet.output_layer[i].output)-(1-nnet.output_layer[i].output)*log(1-a));
+  for(int i=0; i<*(nnet.sizes_end-1);i++) {
+    *(actual+i).error = *(actual+i).output-*(expect_begin+1);
+    nnet.tot_error += *(actual+i).error;
+    if(*(actual+i).output!=0 || expect[i]!=0) {
+      cost += (-*(actual+i).error*log(*(actual+i).output)-(1-*(actual+i).error)*log(1-*(actual+i).output);
       correct+=1;
     }
   }
@@ -121,11 +134,10 @@ void success_and_errors(Neural_Net nnet, double expect[]) {
 
 /* Computes and changes the error of all neurons in a layer */
 
-void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
-{
-  for (int i=0;i< layer_size;i++) {
-    for (int j=0;j<layer[0].next_layer_size; j++) {
-      layer[i].error = next_layer[j].error * layer[i].weights[j];
+void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end) {
+  for(size_t i=0;i<layer_end-layer_begin;i++) {
+    for(size_t j=0;j<(next_layer_end-layer_end+1);j++) {
+      *(layer_begin+i).error = *(next_layer_begin+j).error* *(layer_begin+i).*(weights_begin+j);
     }
   }
 }
@@ -134,31 +146,42 @@ void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, 
 
 void backprop(Neural_net nnet)
 {
-  backprop_layer(nnet, nnet.hidden_layers[hidden],nnet.sizes[hidden+1], nnet.output_layer[],nnet.sizes[hidden+2])
-  for (int i = nnet.hidden; i>0; i--) {
-    backprop_layer(nnet, nnet.hidden_layers[i-1],nnet.hidden_layers[i], nnet.sizes[i],nnetsizes[i+1]);
+  size_t k=0;
+  Sig_Neuron* x;
+  Sig_Neuron* y= nnet.layers_begin;
+  Sig_Neuron* z;
+  while(k<nnet.sizes_end-nnet.sizes_begin) {
+    x=y;
+    y=nnet.layers_begin+*(nnet.sizes_begin+k)-1;
+    z=nnet.layers_begin+*(nnet.sizes_begin+k+1);
+    backprop(x,y,z);
+    k++;
   }
-  backprop_layer(nnet,input_layer,nnet.hidden_layers[0],nnet.sizes[0],nnet.sizes[1]);
 }
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
 
-void change_weight_layer(double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
-{
-  for (int i = 0; i< layer_size; i++) {
-    for (int j =0; j< next_layer_size; j++) {
-      layer[i].weights[j] = layer[i].weights[j] - eta * (-next_layer[j].error * layer[i].output);
+void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end) ) {
+  {
+   for(size_t i=0;i<layer_end-layer_begin;i++) {
+    for(size_t j=0;j<(next_layer_end-layer_end+1);j++) {
+      *(layer_begin+i).*(weights_begin+j) = *(layer_begin+i).*(weights_begin+j)- eta * (- *(next_layer_begin+j).error * *(layer_begin+i).output);
     }
-  }
+  } 
 }
-
 /* Computes the new weights of all neurons in the network and updates their weights by iterating over change_weight_layer */
 
 void change_weight(Neural_net nnet, double eta)
 {
-  change_weight_layer(eta,input_layer,sizes[0],hidden_layers[0],sizes[1])
-  for (int i= 0;i<hidden; i++) {
-    change_weight_layer(eta,hidden_layers[i],sizes[i],hidden_layers[i+1],sizes[i+1]);
+  size_t k=0;
+  Sig_Neuron* x;
+  Sig_Neuron* y= nnet.layers_begin;
+  Sig_Neuron* z;
+  while(k<nnet.sizes_end-nnet.sizes_begin) {
+    x=y;
+    y=nnet.layers_begin+*(nnet.sizes_begin+k)-1;
+    z=nnet.layers_begin+*(nnet.sizes_begin+k+1);
+    backprop(x,y,z);
+    k++;
   }
-  change_weight_layer(eta,hidden_layers[hidden],sizes[hidden+1],output_layer,sizes[hidden+2]);
 }

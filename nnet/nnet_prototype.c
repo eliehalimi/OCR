@@ -13,10 +13,11 @@ void init(size_t* sizes_begin, size_t* sizes_end, int hidden) {
   nnet.sizes_end=sizes_end;
   size_t sum_sizes=0;
   for(size_t i=0;i<sizes_end-sizes_begin,i++) {
-    sum_sizes += *sizes_begin+1;
+    sum_sizes += *(sizes_begin+i);
   }
-  nnet.layers_begin= (Sig_Neuron*) malloc(sizeof(Sig_Neuron)*sum_sizes);
-  nnet.layers_end=layers_begin+sum_sizes*sizeof(Sig_Neuron);
+  // Allocates the memory for the whole network by allocating the size of neuron * the total number of neuron in the network */
+  nnet.layers_begin = (Sig_Neuron*) malloc(sizeof(Sig_Neuron)*sum_sizes);
+  nnet.layers_end = layers_begin+sum_sizes;
   net_init(nnet);
 }
 
@@ -52,12 +53,11 @@ void load_net(char *path) {
 /* Trains a neural network.
    Inputs : training_data = list of inputs converted to double arrays, expect_data  list of correct data also converted and eta=learning rate */ 
 
-void training(Neural_Net nnet, int epochs, double training_data[][], double expect_data[][],int training_size, double eta, char *path) {
+void training(Neural_Net nnet, int epochs, double* training_data_begin, double* expect_data_begin, double eta) {
   double cost;
   for(int times=0;times<epochs;times++) {
-    double output[nnet.sizes[nnet.hidden+1]];
-    feedforward(nnet,training_data[times]);
-    success_and_errors(nnet,expect_data[times]);
+    feedforward(nnet,training_data_begin + times * *(nnet.sizes);
+    success_and_errors(nnet,expect_data_begin + times * *(nnet.sizes);
     backprop(nnet);
     change_weight(nnet,eta);
   }
