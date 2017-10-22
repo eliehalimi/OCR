@@ -8,7 +8,7 @@
 
 /* Structure of a sigmoid neurone of the neural network */
 
-typeof struct {
+typedef struct {
   /* Initialized by net_init */
   double bias; 
   double weights[];
@@ -20,7 +20,7 @@ typeof struct {
 
 /* Structure of the feedforward neural network using a cross-entropy cost function.*/
 
-typeof struct {
+typedef struct {
   /* given as arguments */
   int sizes[];
   int hidden;

@@ -14,8 +14,16 @@ void init(int sizes[], int hidden) {
   net_init(nnet);
 }
 
-load_net(char path[]) {
-
+/* loads the text file containing the neural network */
+load_net(char path) {
+	FILE *f = fopen(*path, "r");
+	if (f == NULL)
+	{
+		printf("Error opening file! (File not found)\n");
+		exit(1);
+	}
+	fclose(f);
+	return *f;
 }
 
 /* Trains a neural network.
@@ -32,7 +40,18 @@ void training(Neural_Net nnet, int epochs, double training_data[][], double expe
   }
 }
 
-void save_net(Neural_Net nnet, char path[]) {
 
-
+/* saves the neural network into a text file */
+void save_net(Neural_Net nnet, char path) 
+{
+	FILE *f = fopen(*path, "w");
+	for (int i =0; i< nnet.sizes;++i)
+		fprintf(f,"%c", nnet.size[i]);
+	fclose(f);
 }
+
+/*
+int main()
+{
+	init([8,5,3,8],2);
+}*/
