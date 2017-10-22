@@ -120,7 +120,7 @@ double success_and_errors(Neural_Net nnet, double expect[]) {
 
 /* Computes and changes the error of all neurons in a layer */
 
-void backprop_layer(Neural_net nnet, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
+void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
 {
   for (int i=0;i< layer_size;i++) {
     for (int j=0;j<layer[0].next_layer_size; j++) {
@@ -142,7 +142,7 @@ void backprop(Neural_net nnet)
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
 
-void change_weight_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
+void change_weight_layer(double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size)
 {
   for (int i = 0; i< layer_size; i++) {
     for (int j =0; j< next_layer_size; j++) {
@@ -155,8 +155,9 @@ void change_weight_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int la
 
 void change_weight(Neural_net nnet, double eta)
 {
-  for (int i =1;i< ; i++) {
-    change_weight_layer(nnet, eta,) 
-                //TODO add second neuron (next layer) with size)
-    }
+  change_weight_layer(eta,input_layer,sizes[0],hidden_layers[0],sizes[1])
+  for (int i= 0;i<hidden; i++) {
+    change_weight_layer(eta,hidden_layers[i],sizes[i],hidden_layers[i+1],sizes[i+1]);
+  }
+  change_weight_layer(eta,hidden_layers[hidden],sizes[hidden+1],output_layer,sizes[hidden+2]);
 }
