@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "nnet_functions.h"
 
+/* Initializes a new neural network.
+   Inputs : list of layers' sizes and number of hidden layers*/
+
 void init(int sizes[], int hidden) {
   Neural_Net nnet;
   nnet.sizes=sizes;
@@ -11,14 +14,20 @@ void init(int sizes[], int hidden) {
   net_init(nnet);
 }
 
-void training(Neural_Net nnet, int epochs, int data_size, double training_data[][], double expect_data[][],int training_size, double eta, double lambda = 0.0) {
+void load_net(path) {
+
+}
+/* Trains a neural network.
+   Inputs : training_data = list of inputs converted to double arrays, expect_data  list of correct data also converted and eta=learning rate */ 
+
+void training(Neural_Net nnet, int epochs, double training_data[][], double expect_data[][],int training_size, double eta) {
   double cost;
   for(int times=0;times<epochs;times++) {
     double output[nnet.sizes[nnet.hidden+1]];
     feedforward(nnet,training_data[times]);
     success_and_errors(nnet,expect_data[times]);
     backprop(nnet);
-    
+    change_weight(nnet,eta);
   }
 }
   

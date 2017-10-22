@@ -158,7 +158,7 @@ void weight_neuron_layer(Neural_net nnet, double eta, Sig_Neuron layer[], int la
     }
 }
 
-void change_weight(Neural_net nnet, double eta, Sig_Neuron layer[], int layer_size)
+void change_weight(Neural_net nnet, double eta)
 {
     for (int i =1; i< layer_size-1; i++)
     {
