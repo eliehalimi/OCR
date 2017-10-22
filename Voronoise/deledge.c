@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include "../SDL/pixel_operations.h"
@@ -25,10 +24,9 @@ void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List
     }
 }
 
-void deledge(SDL_Surface *img, size_t x, size_t y, int samples[], int lines[])
+void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], List connections)
 {
     Uint32 pixel;
-    Uint8 r, g, b;
     size_t i;
     size_t j;
 
@@ -36,7 +34,56 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int samples[], int lines[])
     {
         for (j = 0; j < y; j++)
         {
-            
+            if (lines[j + i * y] >= 0)
+            {
+                if (i != 0)
+                {
+                    is_connected(img, x, y, i, j, connections);
+                    if (search_l_coords(connections, samples[2 * lines[j + (i - 1) * y]], samples[2 * lines[j + (i - 1) * y] + 1]))
+                    {
+                        lines[j + (i - 1) * y] = -2;
+                        lines[j + i * y] = -2;
+                    }
+                }
+                if (i != x - 1)
+                {
+                    is_connected(img, x, y, i, j, connections);
+                    if (search_l_coords(connections, samples[2 * lines[j + (i + 1) * y]], samples[2 * lines[j + (i + 1) * y] + 1]))
+                    {
+                        lines[j + (i + 1) * y] = -2;
+                        lines[j + i * y] = -2;
+                    }
+                }
+                if (j != 0)
+                {
+                    is_connected(img, x, y, i, j, connections);
+                    if (search_l_coords(connections, samples[2 * lines[j - 1 + i * y]], samples[2 * lines[j - 1 + i * y] + 1]))
+                    {
+                        lines[j - 1 + i * y] = -2;
+                        lines[j + i * y] = -2;
+                    }
+                }
+                if (j != y - 1)
+                {
+                    is_connected(img, x, y, i, j, connections);
+                    if (search_l_coords(connections, samples[2 * lines[j + 1 + i * y]], samples[2 * lines[j + 1 + i * y] + 1]))
+                    {
+                        lines[j + 1 + i * y] = -2;
+                        lines[j + i * y] = -2;
+                    }
+                }
+            }
+        }
+    }
+    for (i = 0; i < x; i++)
+    {
+        for (j = 0; j < y; j++)
+        {
+            if (lines[j + i * y] = -2)
+            {
+                pixel = SDL_MapRGB(img -> format, 0, 0, 0);
+                putpixel(img, i, j, pixel);
+            }
         }
     }
 }

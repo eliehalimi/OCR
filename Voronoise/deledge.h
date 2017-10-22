@@ -8,4 +8,4 @@
 
 void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List l);
 
-void deledge(SDL_Surface *img, size_t x, size_t y, int samples[], int lines[]);
+void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], List connections);
