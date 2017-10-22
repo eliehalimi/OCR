@@ -40,20 +40,19 @@ double sigmoid_prime(double val) {
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
 
-void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]){
-  for(int i=0;i<layer_size;i++){
-    double layer[i].weights[prev_layer_size];
-    for(int j=0;j<prev_layer_size;j++) {
-      layer[i].weights[j]= norm_dist();
+void layer_init(int* layer_begin,int* layer_end,Sig_Neuron* prev_layer_end){
+  for(int i=0;i<layer_end-layer_begin;i++){
+    for(int j=0;j<prev_layer_end-(layer_end+1);j++) {
+      *(layer_end+1+i).*(weights_begin+j)= norm_dist(); 
     }
-    layer[i].biases= norm_dist();
+    *(layer_end+1+i).biases= norm_dist();
   }
 }
 
 /* Initializes the network by iterating over the layer_init function*/
 
 void net_init(Neural_Net nnet){
-  for(int i=0;i<nnet.sizes[0];i++){
+  for(int i=0;i<sizes_end-sizes_begin;i++){
     double nnet.input_layer[i].weights[1];
     nnet.input_layer[i].weights={1};
     nnet.input_layer[i].bias=0;

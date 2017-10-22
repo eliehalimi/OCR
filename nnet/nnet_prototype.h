@@ -33,13 +33,17 @@ void save_net(char path[], Neural_Net nnet);
 /* Structure of a sigmoid neurone of the neural network */
 
 typedef struct {
+  /* Initialized by net_init */ // mandatory for weights[] to be last in struct definition
+  double bias;
+  double* weights_begin;
+  double* weights_end;
+  
   /* Computed during feedforward */
   double output;
+  
   /* Computed during backpropagation */
   double error;
-  /* Initialized by net_init */ // mandatory for weights[] to be last in struct definition.
-  double bias;
-  double weights[];
+
 }Sig_Neuron;
 
 /* Structure of the feedforward neural network using a cross-entropy cost function.*/
@@ -48,10 +52,11 @@ typedef struct {
   /* given as arguments */
   int* sizes_begin;
   int* sizes_end;
-  int hidden;
+  
   /* initialized at creation */
   Sig_Neuron* layers_begin;
   Sig_Neuron* layers_end;
+  
   /* computed during success_and_errors */
   double tot_error;
 }Neural_Net;
