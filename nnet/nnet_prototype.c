@@ -15,26 +15,34 @@ void init(int sizes[], int hidden) {
 }
 
 /* loads the text file containing the neural network */
-load_net(char path) {
-	FILE *f = fopen(*path, "r");
+void load_net(char *path) {
+	
+	FILE *f = fopen(path, "r");
 	if (f == NULL)
 	{
 		printf("Error opening file! (File not found)\n");
 		exit(1);
 	}
+	char *c;
+	while(fscanf(f, "%s", &c) != EOF)
+		printf("%c", c);
 	fclose(f);
-	return *f;
 }
 
 /* Trains a neural network.
    Inputs : training_data = list of inputs converted to double arrays, expect_data  list of correct data also converted and eta=learning rate */ 
 
-void training(Neural_Net nnet, int epochs, double training_data[][], double expect_data[][],int training_size, double eta) {
+void training(Neural_Net nnet, int epochs, double training_data[][], double expect_data[][],int training_size, double eta, char *path) {
   double cost;
   for(int times=0;times<epochs;times++) {
     double output[nnet.sizes[nnet.hidden+1]];
     feedforward(nnet,training_data[times]);
-    success_and_errors(nnet,expect_data[times]);
+    double success = success_and_errors(nnet,expect_data[times]);
+    if (success == 1)	    //means all tests have returned the expected value.
+    {
+	    save_net(path, nnet);
+	    break;
+    }
     backprop(nnet);
     change_weight(nnet,eta);
   }
@@ -42,16 +50,17 @@ void training(Neural_Net nnet, int epochs, double training_data[][], double expe
 
 
 /* saves the neural network into a text file */
-void save_net(Neural_Net nnet, char path) 
+void save_net(char path[], Neural_Net nnet) 
 {
-	FILE *f = fopen(*path, "w");
+	FILE *f = fopen(path, "w+");
+	if (f == NULL)
+	{
+		printf("Error opening file! (file not found)\n"); //should never happen since I am using w+
+		exit();
+	}
 	for (int i =0; i< nnet.sizes;++i)
-		fprintf(f,"%c", nnet.size[i]);
+		fprintf(f,"%s", nnet.size[i]);
+	fprintf(f, "%s", nnet.hidden);
 	fclose(f);
 }
 
-/*
-int main()
-{
-	init([8,5,3,8],2);
-}*/

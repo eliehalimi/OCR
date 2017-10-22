@@ -116,6 +116,7 @@ double success_and_errors(Neural_Net nnet, double expect[]) {
   printf(%d,nnet.sizes[hidden+1]);
   printf(%s,"correct outputs so its total cost is ");
   printf(%.5f,cost);
+  return 1 if nnet.tot_error >0 else 0;
 }
 
 /* Computes and changes the error of all neurons in a layer */

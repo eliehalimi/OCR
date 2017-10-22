@@ -3,6 +3,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "nnet_prototype.h"
+# include "nnet_functions.h"
 
 /*
 void convert_input(char value,int input[]) {
@@ -31,7 +32,17 @@ void convert_input(char value,int input[]) {
 
 
 
-int main()
-{
-	init([8,5,3,8], 2);
+int main(int argc, char *argv[])
+{	
+	if (argc == 2)
+	{
+		load_net(argv[1]); //will need to add things here like initialize according to what is read.
+	}
+	else
+	{
+		init([8,5,3,8], 2);
+	}
+
+	
+
 }
