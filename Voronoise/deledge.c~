@@ -4,7 +4,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include "../SDL/pixel_operations.h"
-#include "dynarray.h"
+#include "dynarray.c"
 
 void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List l)
 {
