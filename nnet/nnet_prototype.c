@@ -7,7 +7,7 @@
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
 
-void init(int sizes[], int hidden) {
+void init(int* sizes_begin, int* sizes_end, int hidden) {
   Neural_Net nnet;
   nnet.sizes=sizes;
   nnet.hidden=hidden;
@@ -37,12 +37,7 @@ void training(Neural_Net nnet, int epochs, double training_data[][], double expe
   for(int times=0;times<epochs;times++) {
     double output[nnet.sizes[nnet.hidden+1]];
     feedforward(nnet,training_data[times]);
-    double success = success_and_errors(nnet,expect_data[times]);
-    if (success == 1)	    //means all tests have returned the expected value.
-    {
-	    save_net(path, nnet);
-	    break;
-    }
+    success_and_errors(nnet,expect_data[times]);
     backprop(nnet);
     change_weight(nnet,eta);
   }

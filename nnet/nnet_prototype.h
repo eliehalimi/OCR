@@ -46,15 +46,12 @@ typedef struct {
 
 typedef struct {
   /* given as arguments */
-  int sizes[];
+  int* sizes_begin;
+  int* sizes_end;
   int hidden;
   /* initialized at creation */
-  Sig_Neuron input_layer[sizes[0]];
-  Sig_Neuron hidden_layers[hidden][];
-  for(i=0;i<hidden;i++) {
-    hidden_layers[i]=Sig_Neuron[sizes[i+1]];
-  }
-  Sig_Neuron output_layer[sizes[hidden+1]];
+  Sig_Neuron* layers_begin;
+  Sig_Neuron* layers_end;
   /* computed during success_and_errors */
   double tot_error;
 }Neural_Net;

@@ -92,7 +92,7 @@ void feedforward(Neural_Net nnet, int input[]) {
 
 /* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
 
-double success_and_errors(Neural_Net nnet, double expect[]) {
+void success_and_errors(Neural_Net nnet, double expect[]) {
   double errors[nnet.sizes[hidden+2]];
   double output[nnet.sizes[hidden+2]];
   int correct =0;
@@ -116,7 +116,6 @@ double success_and_errors(Neural_Net nnet, double expect[]) {
   printf(%d,nnet.sizes[hidden+1]);
   printf(%s,"correct outputs so its total cost is ");
   printf(%.5f,cost);
-  return 1 if nnet.tot_error >0 else 0;
 }
 
 /* Computes and changes the error of all neurons in a layer */
