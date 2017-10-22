@@ -7,10 +7,16 @@
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
 
-void init(int* sizes_begin, int* sizes_end, int hidden) {
+void init(size_t* sizes_begin, size_t* sizes_end, Sig_Neuron* layers_begin,int hidden) {
   Neural_Net nnet;
-  nnet.sizes=sizes;
-  nnet.hidden=hidden;
+  nnet.sizes_begin=sizes_begin;
+  nnet.sizes_end=sizes_end;
+  size_t sum_sizes=0;
+  for(size_t i=0;i<sizes_end-sizes_begin,i++) {
+    sum_sizes += *sizes_begin+1;
+  }
+  nnet.layers_begin=layers_begin;
+  nnet.layers_end=layers_begin+sum_sizes*sizeof(Sig_Neuron);
   net_init(nnet);
 }
 

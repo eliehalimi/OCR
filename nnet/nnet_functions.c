@@ -52,7 +52,7 @@ void layer_init(int* layer_begin,int* layer_end,Sig_Neuron* prev_layer_end){
 /* Initializes the network by iterating over the layer_init function*/
 
 void net_init(Neural_Net nnet){
-  for(int i=0;i<sizes_end-sizes_begin;i++){
+  for(size_t  i=0;i<*(sizes_begin);i++){
     double nnet.input_layer[i].weights[1];
     nnet.input_layer[i].weights={1};
     nnet.input_layer[i].bias=0;

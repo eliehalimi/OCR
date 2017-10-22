@@ -43,7 +43,7 @@ typedef struct {
   
   /* Computed during backpropagation */
   double error;
-
+  
 }Sig_Neuron;
 
 /* Structure of the feedforward neural network using a cross-entropy cost function.*/
