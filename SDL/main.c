@@ -9,6 +9,8 @@
 # include "pixel_operations.h"
 # include "../Voronoise/bruteforce.h"
 # include "../Voronoise/take_samples.h"
+# include "../Voronoise/dynarray.h"
+# include "../Voronoise/deledge.h"
 
 void print_matrix(int mat[], size_t lines, size_t cols);
 
@@ -141,14 +143,6 @@ int main(int argc, char* argv[])
 	
 	display_image(img);
 
-	for (size_t i = 0; i< x;i++)
-	  {
-	    for (size_t j = 0; j<y;j++)
-	      {
-		printf("%d", lines[j+i*y]);
-	      }
-	    printf("\n");
-	  }
 	return 0;
 }
 

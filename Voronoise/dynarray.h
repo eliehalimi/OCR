@@ -32,7 +32,7 @@ void free_l(List *l)
 
 int search_l(List *l, int e)
 {
-    for (int i = 0; i < l -> size - 1; i++)
+    for (size_t i = 0; i < l -> size - 1; i++)
     {
         if (l -> list[i] == e)
         {
@@ -44,7 +44,7 @@ int search_l(List *l, int e)
 
 int search_l_coords(List *l, int x, int y)
 {
-    for (int i = 0; i < l -> size - 2; i++)
+    for (size_t i = 0; i < l -> size - 2; i++)
     {
         if (l -> list[i] == x && l -> list[i + 1] == y)
         {

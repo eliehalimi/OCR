@@ -7,12 +7,12 @@
 
 void is_connected(SDL_Surface *img, size_t x, size_t y, size_t i, size_t j, List l)
 {
-    if !(i < 0 || j < 0 || i >= x || j >= y && !search_l_coords(l, i, j))
+    if (!((i >= x || j >= y) && !(search_l_coords(&l, i, j))))
     {
         Uint32 pixel = getpixel(img, i, j);
         Uint8 r, g, b;
         SDL_GetRGB(pixel, img -> format, &r, &g, &b);
-        if (r == 255)
+        if (r == 0)
         {
             insert_l(&l, x);
             insert_l(&l, y);
@@ -39,7 +39,7 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], L
                 if (i != 0)
                 {
                     is_connected(img, x, y, i, j, connections);
-                    if (search_l_coords(connections, samples[2 * lines[j + (i - 1) * y]], samples[2 * lines[j + (i - 1) * y] + 1]))
+                    if (search_l_coords(&connections, samples[2 * lines[j + (i - 1) * y]], samples[2 * lines[j + (i - 1) * y] + 1]))
                     {
                         lines[j + (i - 1) * y] = -2;
                         lines[j + i * y] = -2;
@@ -48,7 +48,7 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], L
                 if (i != x - 1)
                 {
                     is_connected(img, x, y, i, j, connections);
-                    if (search_l_coords(connections, samples[2 * lines[j + (i + 1) * y]], samples[2 * lines[j + (i + 1) * y] + 1]))
+                    if (search_l_coords(&connections, samples[2 * lines[j + (i + 1) * y]], samples[2 * lines[j + (i + 1) * y] + 1]))
                     {
                         lines[j + (i + 1) * y] = -2;
                         lines[j + i * y] = -2;
@@ -57,7 +57,7 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], L
                 if (j != 0)
                 {
                     is_connected(img, x, y, i, j, connections);
-                    if (search_l_coords(connections, samples[2 * lines[j - 1 + i * y]], samples[2 * lines[j - 1 + i * y] + 1]))
+                    if (search_l_coords(&connections, samples[2 * lines[j - 1 + i * y]], samples[2 * lines[j - 1 + i * y] + 1]))
                     {
                         lines[j - 1 + i * y] = -2;
                         lines[j + i * y] = -2;
@@ -66,7 +66,7 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], L
                 if (j != y - 1)
                 {
                     is_connected(img, x, y, i, j, connections);
-                    if (search_l_coords(connections, samples[2 * lines[j + 1 + i * y]], samples[2 * lines[j + 1 + i * y] + 1]))
+                    if (search_l_coords(&connections, samples[2 * lines[j + 1 + i * y]], samples[2 * lines[j + 1 + i * y] + 1]))
                     {
                         lines[j + 1 + i * y] = -2;
                         lines[j + i * y] = -2;
@@ -79,7 +79,7 @@ void deledge(SDL_Surface *img, size_t x, size_t y, int lines[], int samples[], L
     {
         for (j = 0; j < y; j++)
         {
-            if (lines[j + i * y] = -2)
+            if (lines[j + i * y] == -2)
             {
                 pixel = SDL_MapRGB(img -> format, 0, 0, 0);
                 putpixel(img, i, j, pixel);
