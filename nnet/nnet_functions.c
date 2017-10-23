@@ -90,7 +90,7 @@ void fflayer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* prev_la
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes a result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet, int* input_begin) {
+void feedforward(Neural_Net nnet, double* input_begin) {
   for(size_t i=0;i<*(nnet.sizes);i++) {
     *(nnet.layers_begin+i).output=*(input_begin+i);  
   }

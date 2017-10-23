@@ -10,23 +10,23 @@
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
 
-void init(int sizes[], int hidden);
+void init(size_t* sizes_begin, size_t* sizes_end);
 
 
 /* loads the text file containing the neural network */
 
-void load_net(char *path);
+//void load_net(char *path);
 
 
 /* Trains a neural network.
    Inputs : training_data = list of inputs converted to double arrays, expect_data  list of correct data also converted and eta=learning rate */ 
 
-void training(Neural_Net nnet, int epochs, double training_data[][], double expect_data[][],int training_size, double eta, char *path);
+void training(Neural_Net nnet, size_t epochs, double* training_data_begin, double* expect_data_begin, int training_size, double eta);
 
 
 /* saves the neural network into a text file */
 
-void save_net(char path[], Neural_Net nnet);
+//void save_net(char path[], Neural_Net nnet);
 
 
 

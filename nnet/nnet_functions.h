@@ -29,7 +29,7 @@ double sigmoid_prime(double val);
 /* Initializes the weights between the layer and prev_layer layers (each neuron of a layer is connected to all the neurons of the next layer).
 This uses the norm_dist function to increase the training speed as it limits the number of saturated neurons at the start of the training*/
 
-void layer_init(int layer_size,int prev_layer_size,Sig_Neuron layer[],Sig_Neuron prev_layer[]);
+void layer_init(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* prev_layer_begin);
 
 
 /* Initializes the network by iterating over the layer_init function*/
@@ -39,23 +39,21 @@ void net_init(Neural_Net nnet);
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each neuron in the layer using the sigmoid function, the bias of the neuron, the output of the neurones of the previous layer and the weights between the layer and prev_layer layers*/
 
-void fflayer(int layer_size; int prev_layer_size,Sig_Neuron layer[] ,Sig_Neuron prev_layer[]);
+void fflayer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* prev_layer_begin);
 
 
 /* Applies the Feedforward algorithm to the network by iterating over the fflayer function. Takes a result array of size [hidden+1].*/
 
-void feedforward(Neural_Net nnet, int input[]);
-
-
+void feedforward(Neural_Net nnet, double* input_begin);
 
 /* Computes the total cost, the errors of the neuron of the last layers and the total error of the network */
 
-double success_and_errors(Neural_Net nnet, double expect[]);
+double success_and_errors(Neural_Net nnet, double* except_begin);
 
 
 /* Computes and changes the error of all neurons in a layer */
 
-void backprop_layer( Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size);
+void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end););
 
 
 /* Computes and changes error of all neurons in the network by iterating over backprop_layer */
@@ -65,7 +63,7 @@ void backprop(Neural_net nnet);
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
 
-void change_weight_layer(double eta, Sig_Neuron layer[], int layer_size, Sig_Neuron next_layer, int next_layer_size);
+void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end);
 
 
 
