@@ -72,10 +72,9 @@ double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
     *(expected_begin+i*3)=1;
     *(expected_begin+i*3+1)=1;
     *(expected_begin+i*3+2)=1;
-  }
+	}
+   }
 }
-*/
-
 int main(int argc, char *argv[])
 {
   size_t epochs = 15;

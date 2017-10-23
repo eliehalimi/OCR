@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "nnet_prototype.h"
+#include "nnet_functions.h"
 
 /*-------------------------------Support functions------------------------------ */
 
@@ -141,7 +142,7 @@ void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* 
 
 /* Computes and changes error of all neurons in the network by iterating over backprop_layer */
 
-void backprop(Neural_net nnet)
+void backprop(Neural_Net nnet)
 {
   size_t k=0;
   Sig_Neuron* x;
@@ -158,8 +159,8 @@ void backprop(Neural_net nnet)
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
 
-void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end) ) {
-  {
+void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end)
+{
    for(size_t i=0;i<layer_end-layer_begin;i++) {
     for(size_t j=0;j<(next_layer_end-layer_end+1);j++) {
       *(layer_begin+i).*(weights_begin+j) = *(layer_begin+i).*(weights_begin+j)- eta * (- *(next_layer_begin+j).error * *(layer_begin+i).output);
@@ -168,7 +169,7 @@ void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_e
 }
 /* Computes the new weights of all neurons in the network and updates their weights by iterating over change_weight_layer */
 
-void change_weight(Neural_net nnet, double eta)
+void change_weight(Neural_Net nnet, double eta)
 {
   size_t k=0;
   Sig_Neuron* x;

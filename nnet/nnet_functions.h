@@ -54,12 +54,12 @@ double success_and_errors(Neural_Net nnet, double* except_begin);
 
 /* Computes and changes the error of all neurons in a layer */
 
-void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end););
+void backprop_layer(Sig_Neuron* layer_begin, Sig_Neuron* layer_end, Sig_Neuron* next_layer_end);
 
 
 /* Computes and changes error of all neurons in the network by iterating over backprop_layer */
 
-void backprop(Neural_net nnet);
+void backprop(Neural_Net nnet);
 
 
 /* Computes the new weights of all neurons in a layer and updates their weights */
@@ -70,6 +70,6 @@ void change_weight_layer(double eta,Sig_Neuron* layer_begin, Sig_Neuron* layer_e
 
 /* Computes the new weights of all neurons in the network and updates their weights by iterating over change_weight_layer */
 
-void change_weight(Neural_net nnet, double eta);
+void change_weight(Neural_Net nnet, double eta);
 
 #endif

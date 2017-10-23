@@ -5,6 +5,7 @@
 #include "nnet_functions.h"
 #include "nnet_prototype.h"
 
+
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
 
@@ -20,6 +21,7 @@ Neural_Net init(size_t* sizes_begin, size_t* sizes_end) {
   nnet.layers_begin = (Sig_Neuron*) malloc(sizeof(Sig_Neuron)*sum_sizes);
   nnet.layers_end = layers_begin+sum_sizes;
   net_init(nnet);
+  return nnet;
 }
 
 /* loads the text file containing the neural network Neural_Net load_net(char *path) {
