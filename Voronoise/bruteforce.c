@@ -8,7 +8,7 @@
 
 void green(SDL_Surface *img, size_t i, size_t j)
 {
-  Uint32 pixel = SDL_MapRGB(img->format,0,255,0);
+  Uint32 pixel = SDL_MapRGB(img->format,255,0,255);
   putpixel(img,i,j,pixel);
 }
 

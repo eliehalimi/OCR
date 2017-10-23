@@ -46,7 +46,7 @@ void take_samples(SDL_Surface *img, size_t x, size_t y, int samples[], int *nbsa
                         is_sample = 1;
                     }
                 }
-				if (j != y - 1)
+		if (j != y - 1)
                 {
                     pixel = getpixel(img, i, j + 1);
                     SDL_GetRGB(pixel, img->format, &r, &g, &b);

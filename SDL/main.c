@@ -122,7 +122,7 @@ int main(int argc, char* argv[])
 	}
 	for (int i = 0; i < nbsamples; i++)
 	{
-		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
+		Uint32 pixel = SDL_MapRGB(img->format,0,255,255);
 		if (samples2[i * 2] != -1 && samples2[1 + i * 2] != -1)
 		{
 			putpixel(img, samples2[i * 2], samples2[ 1 + i * 2], pixel);
@@ -139,16 +139,7 @@ int main(int argc, char* argv[])
 	bruteforce(img, x ,y, samples2, nbsamples, lines);
 	drawgreen(img, x, y, lines);
 	
-	display_image(img);
-
-	for (size_t i = 0; i< x;i++)
-	  {
-	    for (size_t j = 0; j<y;j++)
-	      {
-		printf("%d", lines[j+i*y]);
-	      }
-	    printf("\n");
-	  }
+	display_image(img);	
 	return 0;
 }
 
