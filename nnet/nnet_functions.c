@@ -5,7 +5,6 @@
 #include <math.h>
 
 #include "nnet_prototype.h"
-#include "../lib/matrix.h"
 
 /*-------------------------------Support functions------------------------------ */
 
@@ -114,8 +113,6 @@ void success_and_errors(Neural_Net nnet, double* expect_begin) {
   double cost =0;
   Sig_Neuron* actual=layers_end-*(nnet.sizes_end-1);
   nnet.tot_error=0;
-  
-  matrix_sub(output, expect, 1, nnet.sizes[hidden+2], errors);
   for(int i=0; i<*(nnet.sizes_end-1);i++) {
     *(actual+i).error = *(actual+i).output-*(expect_begin+1);
     nnet.tot_error += *(actual+i).error;

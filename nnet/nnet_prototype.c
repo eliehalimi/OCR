@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "nnet_functions.h"
+#include "nnet_prototype.h"
 
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
