@@ -9,8 +9,6 @@
 # include "pixel_operations.h"
 # include "../Voronoise/bruteforce.h"
 # include "../Voronoise/take_samples.h"
-# include "../Voronoise/dynarray.h"
-# include "../Voronoise/deledge.h"
 
 void print_matrix(int mat[], size_t lines, size_t cols);
 
@@ -124,7 +122,7 @@ int main(int argc, char* argv[])
 	}
 	for (int i = 0; i < nbsamples; i++)
 	{
-		Uint32 pixel = SDL_MapRGB(img->format,255,0,0);
+		Uint32 pixel = SDL_MapRGB(img->format,0,255,255);
 		if (samples2[i * 2] != -1 && samples2[1 + i * 2] != -1)
 		{
 			putpixel(img, samples2[i * 2], samples2[ 1 + i * 2], pixel);
@@ -141,8 +139,7 @@ int main(int argc, char* argv[])
 	bruteforce(img, x ,y, samples2, nbsamples, lines);
 	drawgreen(img, x, y, lines);
 	
-	display_image(img);
-
+	display_image(img);	
 	return 0;
 }
 
