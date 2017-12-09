@@ -199,7 +199,7 @@ void backprop(struct Neural_Net *nnet)
   	while(k < nnet->sizes_end - nnet->sizes_begin - 1) {
     	x = y;
    	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
-    	z = nnet->layers_begin + *(nnet->sizes_end -(5 - k))- 1);
+    	z = nnet->layers_begin + *(nnet->sizes_end -(5-k)) - 1;
     	backprop_layer(x,y,z);
     	k++;
   	}
