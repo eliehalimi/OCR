@@ -21,9 +21,9 @@ struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
   // Allocates the memory for the whole network by allocating the size of
   // neuron * the total number of neuron in the network */
   nnet->layers_begin = (struct Sig_Neuron*)
-	  malloc(sizeof(struct Sig_Neuron)*sum_sizes);
+	  malloc(sizeof(struct Sig_Neuron) * sum_sizes);
   printf("%zu", *sizes_end);
-  nnet->layers_end = nnet->layers_begin+sum_sizes;
+  nnet->layers_end = nnet->layers_begin +sum_sizes;
   net_init(nnet);
   return nnet;
 }
