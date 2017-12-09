@@ -192,14 +192,14 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 
 void backprop(struct Neural_Net *nnet)
 {
-	int k = 0;
+	int k = 1;
  	struct Sig_Neuron* x;
   	struct Sig_Neuron* y = nnet->layers_begin;
   	struct Sig_Neuron* z;
-  	while(k < nnet->sizes_end - nnet->sizes_begin) {
+  	while(k < nnet->sizes_end - nnet->sizes_begin - 1) {
     	x = y;
    	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
-    	z = nnet->layers_begin + *(nnet->sizes_begin + k + 1);
+    	z = nnet->layers_begin + *(nnet->sizes_end -(5 - k))- 1);
     	backprop_layer(x,y,z);
     	k++;
   	}
@@ -223,14 +223,14 @@ void change_weight_layer(double eta, struct Sig_Neuron* layer_begin,
 
 void change_weight(struct Neural_Net *nnet, double eta)
 {
-	int k = 0;
+	int k = 1;
 	struct Sig_Neuron* x;
 	struct Sig_Neuron* y = nnet->layers_begin;
 	struct Sig_Neuron* z;
 	while(k < nnet->sizes_end - nnet->sizes_begin) {
     	x = y;
     	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
-    	z = nnet->layers_begin + *(nnet->sizes_begin + k + 1);
+    	z = nnet->layers_begin + *(nnet->sizes_end - (5-k) - 1);
     	change_weight_layer(eta, x, y, z); 
     	k++;
   	}
