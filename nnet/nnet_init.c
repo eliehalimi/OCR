@@ -7,7 +7,8 @@
 #include "nnet_functions.h"
 
 /* Initializes a new neural network.
-   Inputs : list of layers' sizes and number of hidden layers*/
+   Inputs : list of layers' sizes and number of hidden layers
+*/
 
 struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
   struct Neural_Net *nnet = (struct Neural_Net*) malloc(sizeof(struct Neural_Net));
