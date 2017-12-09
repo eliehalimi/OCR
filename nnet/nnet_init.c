@@ -9,19 +9,19 @@
 /* Initializes a new neural network.
    Inputs : list of layers' sizes and number of hidden layers*/
 
-struct Neural_Net init(size_t* sizes_begin, size_t* sizes_end) {
-  struct Neural_Net nnet;
-  nnet.sizes_begin=sizes_begin;
-  nnet.sizes_end=sizes_end;
+struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
+  struct Neural_Net *nnet = (struct Neural_Net*) malloc(sizeof(struct Neural_Net));
+  nnet->sizes_begin = sizes_begin;
+  nnet->sizes_end = sizes_end;
   size_t sum_sizes=0;
   for(size_t i=0;i<*sizes_end-*sizes_begin;i++) {
     sum_sizes += *(sizes_begin+i);
   }
   // Allocates the memory for the whole network by allocating the size of
   // neuron * the total number of neuron in the network */
-  nnet.layers_begin = (struct Sig_Neuron*)
+  nnet->layers_begin = (struct Sig_Neuron*)
 	  malloc(sizeof(struct Sig_Neuron)*sum_sizes);
-  nnet.layers_end = nnet.layers_begin+sum_sizes;
+  nnet->layers_end = nnet->layers_begin+sum_sizes;
   net_init(nnet);
   return nnet;
 }
@@ -46,11 +46,11 @@ struct Neural_Net init(size_t* sizes_begin, size_t* sizes_end) {
    Inputs : training_data = list of inputs converted to double arrays,
    expect_data  list of correct data also converted and eta=learning rate */ 
 
-void training(struct Neural_Net nnet, size_t epochs, double*
+void training(struct Neural_Net *nnet, size_t epochs, double*
 	       	training_data_begin, double* expect_data_begin, double eta) {
  for(size_t times=0;times<epochs;times++) {
-    feedforward(nnet,training_data_begin + times * *(nnet.sizes_begin));
-    success_and_errors(nnet,expect_data_begin + times * *(nnet.sizes_end-1));
+    feedforward(nnet,training_data_begin + times * *(nnet->sizes_begin));
+    success_and_errors(nnet,expect_data_begin + times * *(nnet->sizes_end-1));
     backprop(nnet);
     change_weight(nnet,eta);
   }

@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "nnet_prototype.h"
 
 /*-------------------------------Support functions-------------------------- */
@@ -68,7 +67,7 @@ void feedforward(struct Neural_Net *nnet, double* input_begin);
 /* Computes and changes the error of all neurons in a layer */
 
 void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
-	       	layer_end, struct Sig_Neuron* next_layer_end, struct Sig_Neuron* next_layer_begin);
+	       	layer_end, struct Sig_Neuron* next_layer_end);
 //added next layer_begin in function declaration
 
 /* Computes and changes error of all neurons in the network 

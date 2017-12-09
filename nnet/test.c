@@ -103,15 +103,9 @@ int main()
   	*(sizes_begin+3) = 10;
   	*(sizes_begin+4) = 3;
   	double* expected_begin = malloc(sizeof(double) * epochs * *(sizes_end - 1));
-	printf("%p\n", expected_begin);
-	printf("%f\n", eta);
-  	double* input_begin = generate_input(epochs,sizes_begin,expected_begin);
-	printf("%p\n", input_begin);
-	printf("%zu\n%zu\n", *sizes_begin, *sizes_end);
-	printf("%zu\n", sizeof(struct Neural_Net));
-	struct Neural_Net nnet = init(sizes_begin,sizes_end);
-	printf("%zu\n", sizeof(nnet));
-	
+  	double* input_begin = generate_input(epochs, sizes_begin, expected_begin);
+	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
+	training(nnet, epochs, input_begin, expected_begin, eta);
 	return 0;
 }
 

@@ -7,7 +7,8 @@ CFLAGS=  -Wall -Wextra -Werror -std=c99 -O0 -g
 LDFLAGS=
 LDLIBS= #`pkg-config --libs sdl` -lSDL_image
 
-OBJ= test.o nnet_init.o nnet_functions.o#nnet_functions.o#nnet_prototype.o nnet_init.o nnet_functions.o
+OBJ= test.o nnet_init.o nnet_functions.o
+
 DEP= ${SRC:.o=.d}
 
 all: test

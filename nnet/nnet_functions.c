@@ -1,7 +1,7 @@
 /* nnet_functions.c : This is where the functions used by the neural networks will be stored*/
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <math.h>
 #include "nnet_functions.h"
 
@@ -61,7 +61,7 @@ void layer_init(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 	  (layer_begin+i)->weights_begin =
 			malloc((layer_begin - 1 - prev_layer_begin) * sizeof(double));
 	  (layer_begin+i)->weights_end =
-		(layer_begin+i)->weights_begin+(layer_begin - 1 - prev_layer_begin);
+		(layer_begin+i)->weights_begin + (layer_begin - 1 - prev_layer_begin);
     		//(added layer_begin+i)//64:11
 		for(int j = 0; j < (layer_begin - 1 - prev_layer_begin); j++)
 	       	{
@@ -125,7 +125,7 @@ void fflayer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 
 void feedforward(struct Neural_Net* nnet, double* input_begin)
 {
-       	for(int i = 0; i < *(nnet->sizes); i++)
+       	for(size_t i = 0; i < *(nnet->sizes_begin); i++)
        	{
 		(nnet->layers_begin + i)->output = *(input_begin + i);  
   	}
@@ -157,7 +157,7 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
     		(actual+i)->error = (actual+i)->output - *(expect_begin + 1);
     		nnet->tot_error += (actual+i)->error;
     		
-		if((actual+i)->output != 0 || expect[i] != 0)
+		if((actual+i)->output != 0 || *(expect_begin + i) != 0)
 	       	{
       			cost += ( -(actual+i)->error * log((actual+i)->output) -
 					(1 - (actual+i)->error) * log(1 - (actual+i)
@@ -168,7 +168,7 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
   printf("%s", "The network had ");
   printf("%d", correct);
   printf("%c", '/');
-  printf("%d", nnet->sizes[hidden+1]);
+  printf("%ld", *(nnet->sizes_end - 1));
   printf("%s", "correct outputs so its total cost is ");
   printf("%.5f", cost);
 }
@@ -176,14 +176,14 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
 /* Computes and changes the error of all neurons in a layer */
 
 void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* 
-		layer_end, struct Sig_Neuron* next_layer_end, struct Sig_Neuron* next_layer_begin)
-{//added next_layer_begin in declaration
+		layer_end, struct Sig_Neuron* next_layer_end)
+{
 	for(int i = 0; i < layer_end - layer_begin; i++) 
 	{
-	  for(int j = 0; j < (next_layer_end - layer_end + 1); j++)
+	  for(int j = 0; j < (next_layer_end - layer_end); j++)
 	       	{
-		  (layer_begin+i)->error = (next_layer_begin+j)->error *
-		    *((layer_begin + i)->weights_begin[j]);
+		  (layer_begin + i)->error = (layer_end + j)->error *
+		    *((layer_begin + i)->weights_begin + j);
     		}//next_layer_begin ?
   	}
 }
@@ -201,9 +201,7 @@ void backprop(struct Neural_Net *nnet)
     	x = y;
    	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
     	z = nnet->layers_begin + *(nnet->sizes_begin + k + 1);
-    	backprop(x,y,z); //backprop_layer? if so, need another sig_neuron
-	//else change that because backprop takes only one argument of type 
-	//struct Neural_Net -> maybe call backprop(nnet) ?
+    	backprop_layer(x,y,z);
     	k++;
   	}
 }
@@ -215,9 +213,9 @@ void change_weight_layer(double eta, struct Sig_Neuron* layer_begin,
 		struct Sig_Neuron* layer_end, struct Sig_Neuron* next_layer_end)
 {
    for(int i = 0; i < layer_end - layer_begin; i++) {
-    for(int j = 0; j < (next_layer_end - layer_end + 1); j++) {
-    /*  * */((layer_begin + i)->weights_begin[j]) = ((layer_begin + i)->weights_begin[j])
-	      - eta * (-(next_layer_begin + j)->error * (layer_begin + i)->output);
+    for(int j = 0; j < (next_layer_end - layer_end); j++) {
+     *((layer_begin + i)->weights_begin + j) = *((layer_begin + i)->weights_begin+ j)
+       - eta * (-(layer_end + j)->error * (layer_begin + i)->output);
     }//next_layer_begin doesn't exist
   } 
 }
@@ -234,8 +232,7 @@ void change_weight(struct Neural_Net *nnet, double eta)
     	x = y;
     	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
     	z = nnet->layers_begin + *(nnet->sizes_begin + k + 1);
-    	backprop(x,y,z);//same thing backprop takes only one argument 
+    	change_weight_layer(eta, x, y, z); 
     	k++;
-	// eta is not used in this function.
   	}
 }
