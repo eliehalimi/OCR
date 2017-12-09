@@ -64,9 +64,9 @@ void layer_init(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 		(layer_begin+i)->weights_begin + (layer_begin - 1 - prev_layer_begin);
 		for(int j = 0; j < (layer_begin - 1 - prev_layer_begin); j++)
 	       	{
-		  *((prev_layer_begin + i)->weights_begin + j) = norm_dist(); 
+		  *(layer_begin + i)->weights_begin + j) = norm_dist(); 
     		}
-    		(prev_layer_begin + i)->bias = norm_dist();
+    		(layer_begin + i)->bias = norm_dist();
   	}
 }
 
