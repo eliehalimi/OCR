@@ -156,7 +156,7 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
     		(actual+i)->error = (actual+i)->output - *(expect_begin + 1);
     		nnet->tot_error += (actual+i)->error;
     		
-		if((actual+i)->output != 0 || *(expect_begin + i) != 0)
+		if((actual+i)->output != 0 ||(actual+i)->output != 1 || *(expect_begin + i) != 0)
 	       	{
       			cost += ( -(actual+i)->error * log((actual+i)->output) -
 					(1 - (actual+i)->error) * log(1 - (actual+i)
