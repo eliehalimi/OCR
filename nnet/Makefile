@@ -3,9 +3,9 @@
 CC=gcc
 
 CPPFLAGS=
-CFLAGS= -fsanitize=address -Wall -Wextra -Werror -std=c99 -O0 -g
-LDFLAGS=
-LDLIBS= -lm -lasan 
+CFLAGS= -Wall -Wextra -Werror -std=c99 -O0 -g
+LDFLAGS= 
+LDLIBS= -lm #-lasan 
 
 OBJ= test.o nnet_init.o nnet_functions.o
 
