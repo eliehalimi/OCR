@@ -97,9 +97,9 @@ void net_init(struct Neural_Net *nnet)
 }
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each
- ** neuron in the layer using the sigmoid function, the bias of the neuron,
- ** the output of the neurones of the previous layer and the weights between
- ** the layer and prev_layer layers
+ * neuron in the layer using the sigmoid function, the bias of the neuron,
+ * the output of the neurones of the previous layer and the weights between
+ * the layer and prev_layer layers
  */
 
 void fflayer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
@@ -130,13 +130,13 @@ void feedforward(struct Neural_Net* nnet, double* input_begin)
   	}
   	int k=1;
   	struct Sig_Neuron* x;
-  	struct Sig_Neuron* y = nnet->layers_begin + *(nnet->sizes_begin);
+  	struct Sig_Neuron* y = nnet->layers_begin;
   	struct Sig_Neuron* z;
   	while(k < nnet->sizes_end - nnet->sizes_begin)
        	{
 		x = y;
     		y = nnet->layers_begin + *(nnet->sizes_begin + k);
-    		z = nnet->layers_begin + *(nnet->sizes_begin + k + 1) - 1;
+    		z = nnet->layers_begin + *(nnet->sizes_end - (5-k)) - 1;
     		fflayer(y,z,x);
     		k++;
 	}
