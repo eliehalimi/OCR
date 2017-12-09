@@ -84,13 +84,13 @@ void net_init(struct Neural_Net *nnet)
   	}
        	int k = 1;
   	struct Sig_Neuron* x;
-  	struct Sig_Neuron* y = nnet->layers_begin + *(nnet->sizes_begin);
+  	struct Sig_Neuron* y = nnet->layers_begin;
   	struct Sig_Neuron* z;
-  	while(k < nnet->sizes_end - nnet->sizes_begin)
+  	while(k < nnet->sizes_end - nnet->sizes_begin - 1)
 	{
 		x = y;
     		y = nnet->layers_begin + *(nnet->sizes_begin+k);
-    		z = nnet->layers_begin + *(nnet->sizes_begin+k+1) - 1;
+    		z = nnet->layers_begin + *(nnet->sizes_end-(5-k)) - 1;
     		layer_init(y,z,x);
     		k++;
   	}
