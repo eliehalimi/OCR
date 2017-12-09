@@ -2,10 +2,10 @@
 
 CC=gcc
 
-CPPFLAGS= #`pkg-config --cflags sdl` -MMD
-CFLAGS=  -Wall -Wextra -Werror -std=c99 -O0 -g
+CPPFLAGS=
+CFLAGS= -fsanitize=address -Wall -Wextra -Werror -std=c99 -O0 -g
 LDFLAGS=
-LDLIBS= -lm #`pkg-config --libs sdl` -lSDL_image
+LDLIBS= -lm -lasan 
 
 OBJ= test.o nnet_init.o nnet_functions.o
 

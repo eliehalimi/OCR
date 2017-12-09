@@ -7,7 +7,7 @@ double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
 {
 	int j;
  	double* input_begin= malloc(sizeof(double)* epochs * *(size_begin)); 
-  	for(size_t i=0;i<epochs;i++)
+  	for(size_t i = 0; i < epochs; i++)
        	{
 		j=rand() % 8;
     		switch(j)
