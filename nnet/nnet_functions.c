@@ -59,15 +59,14 @@ void layer_init(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 	       	us the following expression.*/
     		
 	  (layer_begin+i)->weights_begin =
-			malloc((layer_begin - 1 - prev_layer_begin) * sizeof(double));
+	        (double*) malloc((layer_begin - 1 - prev_layer_begin) * sizeof(double));
 	  (layer_begin+i)->weights_end =
 		(layer_begin+i)->weights_begin + (layer_begin - 1 - prev_layer_begin);
-    		//(added layer_begin+i)//64:11
 		for(int j = 0; j < (layer_begin - 1 - prev_layer_begin); j++)
 	       	{
-		  *((layer_end + 1 + i)->weights_begin + j) = norm_dist(); 
+		  *((prev_layer_begin + i)->weights_begin + j) = norm_dist(); 
     		}
-    		(layer_end + 1 + i)->bias = norm_dist();
+    		(prev_layer_begin + i)->bias = norm_dist();
   	}
 }
 
@@ -77,7 +76,7 @@ void net_init(struct Neural_Net *nnet)
 {
 	for(size_t i = 0; i < *(nnet->sizes_begin); i++) 
 	{
-		(nnet->layers_begin + i)->weights_begin = malloc(sizeof(double));
+	        (nnet->layers_begin + i)->weights_begin = (double*) malloc(sizeof(double));
     		(nnet->layers_begin + i)->weights_end =
 		       	(nnet->layers_begin + i)->weights_begin+1;
     		*((nnet->layers_begin + i)->weights_begin) = 1;
