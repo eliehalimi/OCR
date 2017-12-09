@@ -14,7 +14,7 @@ struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
   nnet->sizes_begin = sizes_begin;
   nnet->sizes_end = sizes_end;
   size_t sum_sizes=0;
-  for(size_t i=0;i<*sizes_end-*sizes_begin;i++) {
+  for(int i=0;i<sizes_end-sizes_begin;i++) {
     sum_sizes += *(sizes_begin+i);
   }
   // Allocates the memory for the whole network by allocating the size of
