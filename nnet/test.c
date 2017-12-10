@@ -94,7 +94,7 @@ int main()
 {
 	printf("%zu\n", sizeof(struct Sig_Neuron));
 	size_t epochs = 15;
-	double eta = 10.0;
+	double eta = 0.02;
 	size_t* sizes_begin = (size_t*) malloc(sizeof(size_t)*5);
 	size_t* sizes_end = sizes_begin+5;
 	*(sizes_begin) = 3;
