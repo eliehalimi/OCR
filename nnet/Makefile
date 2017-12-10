@@ -2,21 +2,22 @@
 
 CC=gcc
 
-CPPFLAGS= `pkg-config --cflags sdl` -MMD
-CFLAGS=  -std=c99		#-Wall -Wextra -Werror -Wpedantic -std=c99 -O3
-LDFLAGS=
-LDLIBS= `pkg-config --libs sdl` -lSDL_image
+CPPFLAGS=
+CFLAGS= -Wall -Wextra -Werror -std=c99 -O0 -g
+LDFLAGS= 
+LDLIBS= -lm 
 
-OBJ= test_function.o nnet_functions.o nnet_prototype.o
+OBJ= test.o nnet_init.o nnet_functions.o
+
 DEP= ${SRC:.o=.d}
 
-all: test_function
+all: test
 
-test_function: ${OBJ}
+test: ${OBJ}
 
 clean:
 	${RM} ${OBJ} ${DEP} *~
-	${RM} test_function
+	${RM} test
 
 -include ${DEP}
 
