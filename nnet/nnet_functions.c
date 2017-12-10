@@ -85,7 +85,7 @@ void net_init(struct Neural_Net *nnet)
        	int k = 1;
   	struct Sig_Neuron* x;
   	struct Sig_Neuron* y = nnet->layers_begin;
-  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin) - 1;
+  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
   	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
@@ -128,15 +128,15 @@ void feedforward(struct Neural_Net* nnet, double* input_begin)
        	{
 		(nnet->layers_begin + i)->output = *(input_begin + i);  
   	}
-  	int k=1;
+  	int k = 1;
   	struct Sig_Neuron* x;
   	struct Sig_Neuron* y = nnet->layers_begin;
-  	struct Sig_Neuron* z;
+  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
   	while(k < nnet->sizes_end - nnet->sizes_begin)
-       	{
+	{
 		x = y;
-    		y = nnet->layers_begin + *(nnet->sizes_begin + k);
-    		z = nnet->layers_begin + *(nnet->sizes_end - (5-k)) - 1;
+    		y = y + *(nnet->sizes_begin + k-1);
+    		z = z + *(nnet->sizes_begin + k);
     		fflayer(y,z,x);
     		k++;
 	}
@@ -193,15 +193,16 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 void backprop(struct Neural_Net *nnet)
 {
 	int k = 1;
- 	struct Sig_Neuron* x;
+  	struct Sig_Neuron* x;
   	struct Sig_Neuron* y = nnet->layers_begin;
-  	struct Sig_Neuron* z;
-  	while(k < nnet->sizes_end - nnet->sizes_begin - 1) {
-    	x = y;
-   	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
-    	z = nnet->layers_begin + *(nnet->sizes_end -(5-k)) - 1;
-    	backprop_layer(x,y,z);
-    	k++;
+  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
+  	while(k < nnet->sizes_end - nnet->sizes_begin)
+	{
+		x = y;
+    		y = y + *(nnet->sizes_begin + k-1);
+    		z = z + *(nnet->sizes_begin + k);
+		backprop_layer(x,y,z);
+		k++;
   	}
 }
 
@@ -224,14 +225,15 @@ void change_weight_layer(double eta, struct Sig_Neuron* layer_begin,
 void change_weight(struct Neural_Net *nnet, double eta)
 {
 	int k = 1;
-	struct Sig_Neuron* x;
-	struct Sig_Neuron* y = nnet->layers_begin;
-	struct Sig_Neuron* z;
-	while(k < nnet->sizes_end - nnet->sizes_begin) {
-    	x = y;
-    	y = nnet->layers_begin + *(nnet->sizes_begin + k) - 1;
-    	z = nnet->layers_begin + *(nnet->sizes_end - (5-k) - 1);
-    	change_weight_layer(eta, x, y, z); 
-    	k++;
+  	struct Sig_Neuron* x;
+  	struct Sig_Neuron* y = nnet->layers_begin;
+  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
+  	while(k < nnet->sizes_end - nnet->sizes_begin)
+	{
+		x = y;
+    		y = y + *(nnet->sizes_begin + k-1);
+    		z = z + *(nnet->sizes_begin + k);
+		change_weight_layer(eta, x, y, z); 
+		k++;
   	}
 }
