@@ -169,7 +169,7 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
   printf("%c", '/');
   printf("%ld", *(nnet->sizes_end - 1));
   printf("%s", "correct outputs so its total cost is ");
-  printf("%.5f", cost);
+  printf("%.5f\n", cost);
 }
 
 /* Computes and changes the error of all neurons in a layer */
