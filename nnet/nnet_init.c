@@ -75,3 +75,10 @@ void save_net(char path[], Neural_Net nnet)
 	fclose(f);
 }
 */
+
+void free_nnet(struct Neural_Net *nnet)
+{
+  for(struct Sig_Neuron* lb = nnet->layers_begin; lb < nnet->layers_end; lb++)
+    free(lb->weights_begin);
+  free(nnet->layers_begin);
+}

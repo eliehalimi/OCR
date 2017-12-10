@@ -107,5 +107,9 @@ int main()
   	double* input_begin = generate_input(epochs, sizes_begin, expected_begin);
 	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
 	training(nnet, epochs, input_begin, expected_begin, eta);
+	free_nnet(nnet);
+        free(sizes_begin);
+        free(expected_begin);
+        free(nnet);
 	return 0;
 }

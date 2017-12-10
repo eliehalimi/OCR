@@ -4,8 +4,8 @@ CC=gcc
 
 CPPFLAGS=
 CFLAGS= -Wall -Wextra -Werror -std=c99 -O0 -g
-LDFLAGS= 
-LDLIBS= -lm 
+LDFLAGS=
+LDLIBS= -lm
 
 OBJ= test.o nnet_init.o nnet_functions.o
 
