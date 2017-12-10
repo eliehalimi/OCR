@@ -113,6 +113,7 @@ int main(int argc, char* argv[])
 		samples[i] = -1;
 	}
 	int nbsamples = 0;
+	/*
 	take_samples(img, x, y, samples, &nbsamples);
 	int samples2[nbsamples * 2];
 	for (int i = 0; i < nbsamples * 2; i++)
@@ -138,6 +139,8 @@ int main(int argc, char* argv[])
         }
 	bruteforce(img, x ,y, samples2, nbsamples, lines);
 	drawgreen(img, x, y, lines);
+	*/
+
 	
 	display_image(img);	
 	return 0;

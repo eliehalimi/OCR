@@ -94,7 +94,7 @@ double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
 int main()
 {
 	printf("%zu\n", sizeof(struct Sig_Neuron));
-	size_t epochs = 15;
+	size_t epochs = 50;
 	double eta = 0.02;
 	size_t* sizes_begin = (size_t*) malloc(sizeof(size_t)*5);
 	size_t* sizes_end = sizes_begin+5;
