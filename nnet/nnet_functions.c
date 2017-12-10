@@ -85,15 +85,15 @@ void net_init(struct Neural_Net *nnet)
        	int k = 1;
   	struct Sig_Neuron* x;
   	struct Sig_Neuron* y = nnet->layers_begin;
-  	struct Sig_Neuron* z;
-  	while(k < nnet->sizes_end - nnet->sizes_begin - 1)
+  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin) - 1;
+  	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
-    		y = nnet->layers_begin + *(nnet->sizes_begin+k);
-    		z = nnet->layers_begin + *(nnet->sizes_end-(5-k)) - 1;
+    		y = y + *(nnet->sizes_begin + k-1);
+    		z = z + *(nnet->sizes_begin + k);
     		layer_init(y,z,x);
     		k++;
-  	}
+	}
 }
 
 /* Applies the Feedforward algorithm to a layer : Computes the output of each
