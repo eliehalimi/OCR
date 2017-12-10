@@ -154,6 +154,9 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
   	for(size_t i = 0; i < *(nnet->sizes_end - 1); i++) 
 	{
     		(actual+i)->error = (actual+i)->output - *(expect_begin + 1);
+		if((actual+i)->error < 0) {
+		  (actual+i)->error = -(actual+1)->error;
+		}
     		nnet->tot_error += (actual+i)->error;
     		
 		if((actual+i)->output != 0 ||(actual+i)->output != 1 || *(expect_begin + i) != 0)
