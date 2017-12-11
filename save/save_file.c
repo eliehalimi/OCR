@@ -44,7 +44,7 @@ void savennet(struct Neural_Net* nnet, char* path)
         while(k < nnet->sizes_end - nnet->sizes_begin)
         {
           printf("size of layer: %zu\n",*(nnet->sizes_begin+ k -1));
-         fprintf(f, "%zu\n, ",*(nnet->sizes_begin+ k -1)); 
+         fprintf(f, "%zu\n",*(nnet->sizes_begin+ k -1)); 
 	  x = y;
           y = y + *(nnet->sizes_begin + k - 1);
           z = z + *(nnet->sizes_begin + k);
@@ -58,14 +58,14 @@ void savennet(struct Neural_Net* nnet, char* path)
               printf("weights: %f\n",((y + i)->weights_begin[j]));
              fprintf(f, "%f, ",((y +i )->weights_begin[j]));
 	    }
-	   fprintf(f, "\n");
+	   fprintf(f, "\n--\n");
           }
 	  k++;
         }
-	fprintf(f, "1st time\n}");
+	fprintf(f, "\n}");
 	fclose(f);
-	//free(nnet);
-}
+	write(1,"COUCOU\n", 7);
+}	
 
 /*
 //SEE DECLARATION IN HEADER
