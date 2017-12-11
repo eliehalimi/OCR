@@ -5,7 +5,7 @@ CC=gcc
 CPPFLAGS= `pkg-config --cflags sdl` -MMD
 CFLAGS= -fsanitize=address -Wall -Wextra -Werror -Wpedantic -std=c99 -O0 -g
 LDFLAGS=
-LDLIBS= `pkg-config --libs sdl` -lSDL_image
+LDLIBS= -fsanitize=address `pkg-config --libs sdl` -lSDL_image
 
 OBJ= main.o pixel_operations.o ../NoNeed4Voronoi/label.o
 DEP= ${SRC:.o=.d}
