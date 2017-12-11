@@ -115,6 +115,7 @@ int main()
 	free_nnet(nnet);
         free(sizes_begin);
         free(expected_begin);
+        free(input_begin);
         free(nnet);
 	return 0;
 }
