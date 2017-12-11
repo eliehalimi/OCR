@@ -44,19 +44,21 @@ void savennet(struct Neural_Net* nnet, char* path)
         while(k < nnet->sizes_end - nnet->sizes_begin)
         {
           printf("size of layer: %zu\n",*(nnet->sizes_begin+ k -1));
-         fprintf(f, "size of layer: %zu\n",*(nnet->sizes_begin+ k -1)); 
+         fprintf(f, "%zu\n, ",*(nnet->sizes_begin+ k -1)); 
 	  x = y;
           y = y + *(nnet->sizes_begin + k - 1);
           z = z + *(nnet->sizes_begin + k);
           for(int i = 0; i < z - y; i++)
           {
 	    printf("bias = %f\n", (y + i)->bias);
-           fprintf(f, "bias = %f\n", (y+i)->bias);
-	    for(int j = 0; j < (y - x); j++)
+           fprintf(f, " %f, ", (y+i)->bias);
+	   fprintf(f, "\n"); 
+	   for(int j = 0; j < (y - x); j++)
             {
               printf("weights: %f\n",((y + i)->weights_begin[j]));
-             fprintf(f, "weights: %f\n",((y +i )->weights_begin[j]));
+             fprintf(f, "%f, ",((y +i )->weights_begin[j]));
 	    }
+	   fprintf(f, "\n");
           }
 	  k++;
         }
