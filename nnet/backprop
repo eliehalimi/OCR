@@ -1,0 +1,36 @@
+Basic principle
+
+z(i,j) = activation value  = ∑ [w(i,j) * a(i-1,k)+b(i,j)]
+where a(i,j) = σ(z) = output
+
+The general formula of the backpropagation of the cost is of the form:
+		δL=∇aC ⊙ σ′(zi)
+
+
+where 	δL is the backpropagation
+	∇aC is the gradient of the cost
+	⊙ represents the hadamard product
+	σ′(zi) is the derivative of the activation.(here σ′(zi) is the function sigmoid prime)
+
+We are using the cross entropy cost function of the form :
+
+	CCE(W,B,Sr,Er)=−∑j[Erj ln aLj+(1−Erj) ln (1−aLj)]
+
+
+using this type of cost function, we get: 
+	∇aCCE=(a^L−E^r)(1−a^L)(a^L)
+
+where 	a^L is the activation
+and 	E^r is the expected output/activation
+and 	σ′(zi) = (1−a^L)(a^L)
+
+
+
+but from the general formula, we can deduce that
+
+	δ^L = (a^L - E^r)
+
+
+Hence the backpropagation function is δ^L = (a^L - E^r)
+
+

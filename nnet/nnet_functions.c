@@ -110,8 +110,8 @@ void fflayer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 		(layer_begin + i)->output = 0;
 		for(int j = 0; j < (layer_begin - prev_layer_begin); j++) 
 		{
-                  (layer_begin + i)->output += (prev_layer_begin + j)->output
-                     * (prev_layer_begin + j)->weights_begin[i];
+      			(layer_begin + i)->output += (prev_layer_begin + j)->output
+			  * (layer_begin + i)->weights_begin[j];
     		}
 		(layer_begin + i)->output = sigmoid((layer_begin + i)->output +
 				(layer_begin + i)->bias);

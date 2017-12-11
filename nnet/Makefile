@@ -3,11 +3,11 @@
 CC=gcc
 
 CPPFLAGS=
-CFLAGS= -Wall -Wextra -Werror -std=c99 -O0 -g -fsanitize=address
-LDFLAGS=
-LDLIBS= -lm -fsanitize=address
+CFLAGS=-fsanitize=address -Wall -Wextra -Werror -std=c99 -O0 -g
+LDFLAGS= 
+LDLIBS= -fsanitize=address -lm 
 
-OBJ= test.o nnet_init.o nnet_functions.o
+OBJ= test.o nnet_init.o nnet_functions.o #../save/save_file.o
 
 DEP= ${SRC:.o=.d}
 
