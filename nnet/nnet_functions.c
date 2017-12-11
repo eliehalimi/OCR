@@ -45,8 +45,8 @@ double sigmoid_prime(double val) {
  * This uses the norm_dist function to increase the training speed as it limits
  * the number of saturated neurons at the start of the training*/
 
-void layer_init(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
-	       	struct Sig_Neuron* prev_layer_begin)
+void layer_init(struct Sig_Neuron* prev_layer_begin, struct Sig_Neuron* layer_begin,
+                struct Sig_Neuron* layer_end)
 {
 	for(int i = 0; i < layer_end - layer_begin; i++)
 	{
@@ -89,9 +89,9 @@ void net_init(struct Neural_Net *nnet)
   	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
-    		y = y + *(nnet->sizes_begin + k-1);
+    		y = z;
     		z = z + *(nnet->sizes_begin + k);
-    		layer_init(y,z,x);
+    		layer_init(x,y,z);
     		k++;
 	}
 }
@@ -102,8 +102,8 @@ void net_init(struct Neural_Net *nnet)
  * the layer and prev_layer layers
  */
 
-void fflayer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
-	       	struct Sig_Neuron* prev_layer_begin) 
+void fflayer(struct Sig_Neuron* prev_layer_begin, struct Sig_Neuron* layer_begin,
+             struct Sig_Neuron* layer_end) 
 {
 	for(int i = 0; i < layer_end - layer_begin; i++) 
 	{
@@ -135,9 +135,9 @@ void feedforward(struct Neural_Net* nnet, double* input_begin)
   	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
-    		y = y + *(nnet->sizes_begin + k-1);
+    		y = z;
     		z = z + *(nnet->sizes_begin + k);
-    		fflayer(y,z,x);
+    		fflayer(x,y,z);
     		k++;
 	}
 }
@@ -149,14 +149,16 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
 {
 	int correct = 0;
   	double cost = 0;
+        doubel err;
   	struct Sig_Neuron* actual = nnet->layers_end - *(nnet->sizes_end - 1);
   	nnet->tot_error = 0;
   	for(size_t i = 0; i < *(nnet->sizes_end - 1); i++) 
 	{
     		(actual+i)->error = (actual+i)->output - *(expect_begin + 1);
-		if((actual + i)->error < 0)
-                  (actual + i)->error = -(actual + i)->error;
-                if((actual + i)->error < 0.0005)
+                err = (actual+i)->error;
+                if(err < 0)
+                  err = -err;
+                if(err < 0.0005)
                   correct++;
     		nnet->tot_error += (actual+i)->error;
     		
@@ -182,11 +184,14 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 {
 	for(int i = 0; i < layer_end - layer_begin; i++) 
 	{
+          (layer_begin + i)->error = 0;
 	  for(int j = 0; j < (next_layer_end - layer_end); j++)
 	       	{
-		  (layer_begin + i)->error = (layer_end + j)->error *
-		    *((layer_begin + i)->weights_begin + j);
+		  (layer_begin + i)->error += (layer_end + j)->error
+                   * (layer_end + j)->weights_begin[i];
     		}
+          (layer_begin + i)->error *= (layer_begin + i)->output
+           * (1 - (layer_begin + i)->output);
   	}
 }
 
@@ -195,16 +200,16 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 
 void backprop(struct Neural_Net *nnet)
 {
-	int k = 1;
-  	struct Sig_Neuron* x;
-  	struct Sig_Neuron* y = nnet->layers_begin;
-  	struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
+	int k = 2;
+  	struct Sig_Neuron* x = nnet->layers_end;
+  	struct Sig_Neuron* y = nnet->layers_end - *(nnet->sizes_end - 1);
+  	struct Sig_Neuron* z = y;
   	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
-    		y = y + *(nnet->sizes_begin + k-1);
-    		z = z + *(nnet->sizes_begin + k);
-		backprop_layer(x,y,z);
+    		y = z;
+    		z = z - *(nnet->sizes_end - k);
+		backprop_layer(z,y,x);
 		k++;
   	}
 }
@@ -212,14 +217,18 @@ void backprop(struct Neural_Net *nnet)
 /* Computes the new weights of all neurons in a layer and updates their weights
  * */
 
-void change_weight_layer(double eta, struct Sig_Neuron* layer_begin, 
-		struct Sig_Neuron* layer_end, struct Sig_Neuron* next_layer_end)
+void change_weight_layer(double eta, struct Sig_Neuron* prev_layer_begin,
+                         struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end)
+)
 {
-   for(int i = 0; i < layer_end - layer_begin; i++) {
-    for(int j = 0; j < (next_layer_end - layer_end); j++) {
-     *((layer_begin + i)->weights_begin + j) = *((layer_begin + i)->weights_begin+ j)
-       - eta * (-(layer_end + j)->error * (layer_begin + i)->output);
-    }//next_layer_begin doesn't exist
+   for(int i = 0; i < layer_end - layer_begin; i++)
+   {
+     for(int j = 0; j < (layer_begin - prev_layer_begin); j++)
+     {
+       (layer_begin + i)->weights_begin[j] = (layer_begin + i)->weights_begin[j] - eta
+         * ((layer_begin + i)->error * (prev_layer_begin + j)->output))
+     }
+    }
   } 
 }
 /* Computes the new weights of all neurons in the network and updates their
@@ -234,7 +243,7 @@ void change_weight(struct Neural_Net *nnet, double eta)
   	while(k < nnet->sizes_end - nnet->sizes_begin)
 	{
 		x = y;
-    		y = y + *(nnet->sizes_begin + k-1);
+    		y = z;
     		z = z + *(nnet->sizes_begin + k);
 		change_weight_layer(eta, x, y, z); 
 		k++;
