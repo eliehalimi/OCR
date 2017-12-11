@@ -37,34 +37,37 @@ void savennet(struct Neural_Net* nnet, char* path)
 	}
 	fprintf(f, "{\n");
 
-	int k = 1;
-        struct Sig_Neuron* x;
+	int k = 0;
         struct Sig_Neuron* y = nnet->layers_begin;
-        struct Sig_Neuron* z = nnet->layers_begin + *(nnet->sizes_begin);
         while(k < nnet->sizes_end - nnet->sizes_begin)
         {
-          printf("size of layer: %zu\n",*(nnet->sizes_begin+ k -1));
-         fprintf(f, "%zu\n, ",*(nnet->sizes_begin+ k -1)); 
-	  x = y;
-          y = y + *(nnet->sizes_begin + k - 1);
-          z = z + *(nnet->sizes_begin + k);
-          for(int i = 0; i < z - y; i++)
+          printf("size of layer: %zu\n",*(nnet->sizes_begin + k));
+         fprintf(f, "%zu\n, ",*(nnet->sizes_begin + k)); 
+          for(size_t i = 0; i < *(nnet->sizes_begin + k); i++)
           {
 	    printf("bias = %f\n", (y + i)->bias);
-           fprintf(f, " %f, ", (y+i)->bias);
-	   fprintf(f, "\n"); 
-	   for(int j = 0; j < (y - x); j++)
-            {
-              printf("weights: %f\n",((y + i)->weights_begin[j]));
-             fprintf(f, "%f, ",((y +i )->weights_begin[j]));
-	    }
+           fprintf(f, " %f, ", (y + i)->bias);
 	   fprintf(f, "\n");
+            if(k == 0)
+            {
+              printf("weights: %f\n",(*(y + i)->weights_begin));
+             fprintf(f, "%f, ",(*(y + i)->weights_begin));
+            }
+            else
+            {
+              for(size_t j = 0; j < *(nnet->sizes_begin + k - 1); j++)
+                {
+                  printf("weights: %f\n",((y + i)->weights_begin[j]));
+                 fprintf(f, "%f, ",((y + i)->weights_begin[j]));
+                }
+            }
+            fprintf(f, "\n");
           }
-	  k++;
+          y = y + *(nnet->sizes_begin + k);
+          k++;
         }
 	fprintf(f, "1st time\n}");
 	fclose(f);
-	//free(nnet);
 }
 
 /*
