@@ -3,11 +3,11 @@
 CC=gcc
 
 CPPFLAGS= `pkg-config --cflags sdl` -MMD
-CFLAGS= -Wall -Wextra -Werror -Wpedantic -std=c99 -O0 -g 
+CFLAGS= -Wall -Wextra -Werror -Wpedantic -std=c99 -O0 -g -fsanitize=address
 LDFLAGS=
-LDLIBS= `pkg-config --libs sdl` -lSDL_image
+LDLIBS= `pkg-config --libs sdl` -lSDL_image -fsanitize=address
 
-OBJ= struct.o main.o
+OBJ= main.o struct.o
 DEP= ${SRC:.o=.d}
 
 all: main
@@ -15,7 +15,7 @@ all: main
 main: ${OBJ}
 
 clean:
-	${RM} ${OBJ} ${DEP} *~
+	${RM} ${OBJ} ${DEP} *~ *.swp
 	${RM} main
 
 -include ${DEP}
