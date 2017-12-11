@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "save_file.h"
+#include <unistd.h>
 /*
 
  / / SEE DECLARATION IN HEADER
@@ -53,14 +54,15 @@ void savennet(struct Neural_Net* nnet, char* path)
            fprintf(f, "bias = %f\n", (y+i)->bias);
 	    for(int j = 0; j < (y - x); j++)
             {
-	      write(1,j,1);
               printf("weights: %f\n",((y + i)->weights_begin[j]));
-             fprintf(f, "weights: %f\n",((y +i )->weight_begin[j]));
+             fprintf(f, "weights: %f\n",((y +i )->weights_begin[j]));
 	    }
           }
 	  k++;
         }
-	fclosef(f);
+	fprintf(f, "1st time\n}");
+	fclose(f);
+	//free(nnet);
 }
 
 /*

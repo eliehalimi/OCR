@@ -111,10 +111,10 @@ int main()
   	double* input_begin = generate_input(epochs, sizes_begin, expected_begin);
 	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
 	training(nnet, epochs, input_begin, expected_begin, eta);
+	savennet(nnet, "saved.txt");
 	free_nnet(nnet);
         free(sizes_begin);
         free(expected_begin);
         free(nnet);
-	savennet(nnet, "saved.txt");
 	return 0;
 }
