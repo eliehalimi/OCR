@@ -36,7 +36,7 @@ double sigmoid_prime(double val);
  * the number of saturated neurons at the start of the training*/
 
 void layer_init(struct Sig_Neuron* prev_layer_begin, struct Sig_Neuron* layer_begin,
-                struct Sig_Neuron* layer_end)
+                struct Sig_Neuron* layer_end);
 
 
 /* Initializes the network by iterating over the layer_init function*/
@@ -50,7 +50,7 @@ void net_init(struct Neural_Net *nnet);
  * weights between the layer and prev_layer layers*/
 
 void fflayer(struct Sig_Neuron* prev_layer_begin, struct Sig_Neuron* layer_begin,
-             struct Sig_Neuron* layer_end)
+             struct Sig_Neuron* layer_end);
 
 
 /* Applies the Feedforward algorithm to the network by iterating over 
@@ -80,7 +80,7 @@ void backprop(struct Neural_Net *nnet);
  * updates their weights */
 
 void change_weight_layer(double eta, struct Sig_Neuron* prev_layer_begin,
-                         struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end)
+                         struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end);
 
 
 

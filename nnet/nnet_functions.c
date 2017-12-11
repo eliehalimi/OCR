@@ -149,7 +149,7 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
 {
 	int correct = 0;
   	double cost = 0;
-        doubel err;
+        double err;
   	struct Sig_Neuron* actual = nnet->layers_end - *(nnet->sizes_end - 1);
   	nnet->tot_error = 0;
   	for(size_t i = 0; i < *(nnet->sizes_end - 1); i++) 
@@ -219,17 +219,15 @@ void backprop(struct Neural_Net *nnet)
 
 void change_weight_layer(double eta, struct Sig_Neuron* prev_layer_begin,
                          struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end)
-)
 {
    for(int i = 0; i < layer_end - layer_begin; i++)
    {
      for(int j = 0; j < (layer_begin - prev_layer_begin); j++)
      {
        (layer_begin + i)->weights_begin[j] = (layer_begin + i)->weights_begin[j] - eta
-         * ((layer_begin + i)->error * (prev_layer_begin + j)->output))
+         * ((layer_begin + i)->error * (prev_layer_begin + j)->output);
      }
-    }
-  } 
+   }
 }
 /* Computes the new weights of all neurons in the network and updates their
  *  weights by iterating over change_weight_layer */
