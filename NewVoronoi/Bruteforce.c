@@ -5,7 +5,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "../SDL/pixel_operations.h"
-# include "struct.c"
+# include "struct.h"
 
 int sq(int x, int y)
 {
@@ -14,19 +14,22 @@ int sq(int x, int y)
 
 void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsamples, int lines[], int label[], struct edge *e)
 {
+  struct edge *tmp = e;
   int exit =0;
   int d;
   int d2;
   int p;
+  int visited = 0;
   for (size_t i = 0; i < x; i++)
     {
       for (size_t j = 0; j < y; j++)
 	{
+	  printf("%ld",i);
+          printf("%ld\n",j);
 	  Uint8 r,g,b;
 	  Uint32 pixel = getpixel(img, i, j);
 	  SDL_GetRGB(pixel, img->format,&r,&g,&b);
 	  exit = 0;
-	  int temp;
 	  if (r == 0)
 	    {
 	      exit = 1;
@@ -37,6 +40,7 @@ void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsampl
 	      p = 0;
 	      for (int k = 0; k < nbsamples; k++)
 		{
+		  printf("%d\n",k);
 		  d2 = sq(i - samples[k*2],j - samples[2*k+1]);
 		  if (d2< d)
 		    {
@@ -45,16 +49,21 @@ void bruteforce(SDL_Surface *img, size_t x, size_t y, int samples[], int nbsampl
 		    }
 		}
 	      lines[i+j*x] = p;
+	      visited = 0;
 	      if (i != 0)
 		{
 		  if (lines[i-1+j*x] != p && lines[i-1+j*x] != -1)
 		    {
-		      temp = search_edge(e,lines[i-1+j*x],p);
-		      if (temp == NULL)
-			{
-			  add_edge(e,g1,g2);
-			}
-		      add_point()
+		      add_point(tmp,i,j,lines[i-1+j*x],p);
+		      visited = 1;
+		    }
+		}
+	      if (j != 0 && visited == 0)
+		{
+		  if (lines[i+(j-1)*x] != p && lines[i+(j-1)*x] != -1)
+		    {
+		      add_point(tmp,i,j,lines[i+(j-1)*x],p);
+		      visited = 1;
 		    }
 		}
 	    }

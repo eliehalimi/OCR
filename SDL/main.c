@@ -7,8 +7,14 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "pixel_operations.h"
-# include "../Voronoise/bruteforce.h"
-# include "../Voronoise/take_samples.h"
+# include <unistd.h>
+/*
+# include "../NewVoronoi/struct.h"
+# include "../NewVoronoi/Bruteforce.h"
+# include "../NewVoronoi/label.h"
+# include "../NewVoronoi/voronoi.h"
+*/
+#include "../NoNeed4Voronoi/label.h"
 
 void print_matrix(int mat[], size_t lines, size_t cols);
 
@@ -104,45 +110,54 @@ int main(int argc, char* argv[])
 			putpixel(img, i, j, pixel);
 		}
 	}
-	display_image(img);	
+	write(1,"COUCOU\n",7);
+	display_image(img);
 	size_t x = img->w;
 	size_t y = img->h;
+	/*
 	int samples[x * y];
 	for (size_t i = 0; i < x * y; i++)
 	{
 		samples[i] = -1;
 	}
+	
 	int nbsamples = 0;
-	/*
-	take_samples(img, x, y, samples, &nbsamples);
-	int samples2[nbsamples * 2];
-	for (int i = 0; i < nbsamples * 2; i++)
-	{
-		samples2[i] = samples[i];
-		printf("%d", samples2[i]);
-	}
-	for (int i = 0; i < nbsamples; i++)
-	{
-		Uint32 pixel = SDL_MapRGB(img->format,0,255,255);
-		if (samples2[i * 2] != -1 && samples2[1 + i * 2] != -1)
-		{
-			putpixel(img, samples2[i * 2], samples2[ 1 + i * 2], pixel);
-		}
-	}
-	printf("nbsamples: %d\n", nbsamples);
-	display_image(img);
 
 	int lines[x*y];
-	for (size_t i = 0; i < x * y; i++)
-        {
-	  lines[i] = -1;
-        }
-	bruteforce(img, x ,y, samples2, nbsamples, lines);
-	drawgreen(img, x, y, lines);
-	*/
-
 	
-	display_image(img);	
-	return 0;
+        for (size_t i = 0; i < x * y; i++)
+        {                                                                                                                     
+          lines[i] = -1;
+        }
+	*/
+	int label[x*y];
+	/*
+	int components[x*y];
+	int nbcomponents = 0;
+	*/
+	struct images *images = labels(img, x, y, label);
+	/*
+	struct edge *e = malloc(sizeof(struct edge));
+	init_edge(e);
+	printf("init\n");
+	labels(img, x, y, label, samples, &nbsamples, components, &nbcomponents);
+	
+	printf("Labeled\n");
+	bruteforce(img, x, y, samples, nbsamples, lines, label, e);
+	printf("Brute\n");
+	merge(img, e);
+	*/
+	int *image = images->next->image;
+	printf("%d",images->next->y);
+	printf("%d", images->next->x);
+	for (int j = 0; j < images->next->y; j++)
+	  {
+	    for (int i = 0; i<images->next->x; i++)
+	      {
+		printf("%d",*(image + i + j* x));
+		fflush(stdout);
+	      }
+	    printf("\n");
+	  }
 }
 

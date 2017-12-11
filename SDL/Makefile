@@ -3,11 +3,11 @@
 CC=gcc
 
 CPPFLAGS= `pkg-config --cflags sdl` -MMD
-CFLAGS= -Wall -Wextra -Werror -Wpedantic -std=c99 -O3
+CFLAGS= -fsanitize=address -Wall -Wextra -Werror -Wpedantic -std=c99 -O0 -g
 LDFLAGS=
 LDLIBS= `pkg-config --libs sdl` -lSDL_image
 
-OBJ= pixel_operations.o main.o ../Voronoise/bruteforce.o ../Voronoise/take_samples.o 
+OBJ= main.o pixel_operations.o ../NoNeed4Voronoi/label.o
 DEP= ${SRC:.o=.d}
 
 all: main
