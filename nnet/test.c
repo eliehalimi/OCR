@@ -7,90 +7,13 @@
 
 double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
 {
-	int j;
- 	double* input_begin = (double*) malloc(sizeof(double)* epochs * *(size_begin)); 
-  	for(size_t i = 0; i < epochs; i++)
-       	{
-		j=rand() % 8;
-    		switch(j)
-	       	{
-			case (0):
-      				*(input_begin+i*3)=1;
-      				*(input_begin+i*3+1)=0;
-      				*(input_begin+i*3+2)=1;
-      				*(expected_begin+i*3)=0;
-      				*(expected_begin+i*3+1)=0;
-      				*(expected_begin+i*3+2)=0;
-      				break;
-      
-    			case (1):
-      				*(input_begin+i*3)=0;
-      				*(input_begin+i*3+1)=0;
-      				*(input_begin+i*3+2)=1;
-      				*(expected_begin+i*3)=0;
-      				*(expected_begin+i*3+1)=0;
-      				*(expected_begin+i*3+2)=1;
-      				break;
-      
-    			case (2):
-      				*(input_begin+i*3)=1;
-      				*(input_begin+i*3+1)=0;
-      				*(input_begin+i*3+2)=0;
-      				*(expected_begin+i*3)=0;
-      				*(expected_begin+i*3+1)=1;
-      				*(expected_begin+i*3+2)=0;
-      				break;
-      
-    			case (3):
-      				*(input_begin+i*3)=0;
-      				*(input_begin+i*3+1)=1;
-      				*(input_begin+i*3+2)=0;
-      				*(expected_begin+i*3)=0;
-      				*(expected_begin+i*3+1)=1;
-      				*(expected_begin+i*3+2)=1;
-      				break;
-
-    			case (4):
-      				*(input_begin+i*3)=0;
-      				*(input_begin+i*3+1)=0;
-      				*(input_begin+i*3+2)=0;
-      				*(expected_begin+i*3)=1;
-      				*(expected_begin+i*3+1)=0;
-      				*(expected_begin+i*3+2)=0;
-      				break;
-
-    			case (5):
-      				*(input_begin+i*3)=1;
-      				*(input_begin+i*3+1)=1;
-      				*(input_begin+i*3+2)=1;
-      				*(expected_begin+i*3)=1;
-      				*(expected_begin+i*3+1)=0;
-      				*(expected_begin+i*3+2)=1;
-      				break;
-
-    			case (6):
-      				*(input_begin+i*3)=0;
-      				*(input_begin+i*3+1)=1;
-      				*(input_begin+i*3+2)=1;
-      				*(expected_begin+i*3)=1;
-      				*(expected_begin+i*3+1)=1;
-      				*(expected_begin+i*3+2)=0;
-      				break;
-
-    			case (7):
-      				*(input_begin+i*3)=1;
-      				*(input_begin+i*3+1)=1;
-      				*(input_begin+i*3+2)=0;
-      				*(expected_begin+i*3)=1;
-      				*(expected_begin+i*3+1)=1;
-      				*(expected_begin+i*3+2)=1;
-      				break;
-    		}
-  	}
-  	return input_begin;
+	
 }
 
-
+char convert_result(double* output)
+{
+  for()
+}
 
 int main()
 {
