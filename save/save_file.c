@@ -26,6 +26,48 @@ void open_file(char *path, char *type)
 }
 */
 
+
+void loadnnet(char* path)
+{
+	FILE *f = fopen(path, "r");
+	if (f == NULL)
+	{
+		printf("Error opening file!\n");
+		exit(1);
+	}
+	char * line = NULL;
+	size_t len = 0;
+	char read;
+
+	while ((read = getline(&line, &len, f)) != -1)
+	{
+		printf("%s\n", &read);
+		printf("%s", line);
+	}
+	if (line)
+		free(line);
+	
+
+	//int c;
+	//while(1)
+	//{
+	//	c = fgetc(f);
+	//	if(feof(f))
+	  //     	{
+	//	       break;
+	//	}
+	//	printf("%c", c);
+	//}
+	//fclose(f);
+
+
+
+}
+
+
+
+
+
 void savennet(struct Neural_Net* nnet, char* path)
 {
 	assert(nnet != NULL);

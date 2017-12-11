@@ -112,6 +112,7 @@ int main()
 	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
 	training(nnet, epochs, input_begin, expected_begin, eta);
 	savennet(nnet, "saved.txt");
+	loadnnet("saved.txt");
 	free_nnet(nnet);
         free(sizes_begin);
         free(expected_begin);
