@@ -22,7 +22,6 @@ struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
   // neuron * the total number of neuron in the network */
   nnet->layers_begin = (struct Sig_Neuron*)
 	  malloc(sizeof(struct Sig_Neuron) * sum_sizes);
-  printf("%zu", *sizes_end);
   nnet->layers_end = nnet->layers_begin + sum_sizes;
   net_init(nnet);
   return nnet;
@@ -75,3 +74,10 @@ void save_net(char path[], Neural_Net nnet)
 	fclose(f);
 }
 */
+
+void free_nnet(struct Neural_Net *nnet)
+{
+  for(struct Sig_Neuron* lb = nnet->layers_begin; lb < nnet->layers_end; lb++)
+    free(lb->weights_begin);
+  free(nnet->layers_begin);
+}

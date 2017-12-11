@@ -34,6 +34,7 @@ void training(struct Neural_Net* nnet, size_t epochs, double*
 
 //void save_net(char path[], Neural_Net nnet);
 
+void free_nnet(struct Neural_Net *nnet);
 
 #endif
 //# endif

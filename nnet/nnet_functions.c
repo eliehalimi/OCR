@@ -59,10 +59,10 @@ void layer_init(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 	       	us the following expression.*/
     		
 	  (layer_begin+i)->weights_begin =
-	        (double*) malloc((layer_begin - 1 - prev_layer_begin) * sizeof(double));
+	        (double*) malloc((layer_begin - prev_layer_begin) * sizeof(double));
 	  (layer_begin+i)->weights_end =
 		(layer_begin+i)->weights_begin + (layer_begin - 1 - prev_layer_begin);
-		for(int j = 0; j < (layer_begin - 1 - prev_layer_begin); j++)
+		for(int j = 0; j < (layer_begin - prev_layer_begin); j++)
 	       	{
 		  (layer_begin + i)->weights_begin[j] = norm_dist(); 
     		}
@@ -78,7 +78,7 @@ void net_init(struct Neural_Net *nnet)
 	{
 	        (nnet->layers_begin + i)->weights_begin = (double*) malloc(sizeof(double));
     		(nnet->layers_begin + i)->weights_end =
-		       	(nnet->layers_begin + i)->weights_begin+1;
+		       	(nnet->layers_begin + i)->weights_begin + 1;
     		*((nnet->layers_begin + i)->weights_begin) = 1;
     		(nnet->layers_begin + i)->bias = 0;
   	}
@@ -108,10 +108,10 @@ void fflayer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end,
 	for(int i = 0; i < layer_end - layer_begin; i++) 
 	{
 		(layer_begin + i)->output = 0;
-		for(int j = 0; j < (layer_begin - 1 - prev_layer_begin); j++) 
+		for(int j = 0; j < (layer_begin - prev_layer_begin); j++) 
 		{
-      			(layer_begin+i)->output += (prev_layer_begin+j)->output
-			  *((prev_layer_begin + j)->weights_begin[i]);
+                  (layer_begin + i)->output += (prev_layer_begin + j)->output
+                     * (prev_layer_begin + j)->weights_begin[i];
     		}
 		(layer_begin + i)->output = sigmoid((layer_begin + i)->output +
 				(layer_begin + i)->bias);
@@ -154,9 +154,10 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
   	for(size_t i = 0; i < *(nnet->sizes_end - 1); i++) 
 	{
     		(actual+i)->error = (actual+i)->output - *(expect_begin + 1);
-		if((actual+i)->error < 0) {
-		  (actual+i)->error = -(actual+1)->error;
-		}
+		if((actual + i)->error < 0)
+                  (actual + i)->error = -(actual + i)->error;
+                if((actual + i)->error < 0.0005)
+                  correct++;
     		nnet->tot_error += (actual+i)->error;
     		
 		if((actual+i)->output != 0 ||(actual+i)->output != 1 || *(expect_begin + i) != 0)
@@ -164,7 +165,6 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
       			cost += ( -(actual+i)->error * log((actual+i)->output) -
 					(1 - (actual+i)->error) * log(1 - (actual+i)
 						->output));
-      			correct += 1;
 		}
   }
   printf("%s", "The network had ");
@@ -186,7 +186,7 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 	       	{
 		  (layer_begin + i)->error = (layer_end + j)->error *
 		    *((layer_begin + i)->weights_begin + j);
-    		}//next_layer_begin ?
+    		}
   	}
 }
 
