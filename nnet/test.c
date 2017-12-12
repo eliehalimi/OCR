@@ -90,44 +90,24 @@ double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
   	return input_begin;
 }
 
-char convert_output(double* output)
+int main()
 {
-  return '\0';
-}
-
-int main(int argc, char* argv)
-{
-        if(argv[0] == '1')
-        {
-          struct Neural_Net* nnet  = loadnnet(nnet,argv[1]);
-        }
-        else
-        {
-          size_t* sizes_begin = (size_t*) malloc(sizeof(size_t)*5);
-          size_t* sizes_end = sizes_begin+5;
-          *(sizes_begin) = 3;
-          *(sizes_begin+1) = 5;
-          *(sizes_begin+2) = 10;
-          *(sizes_begin+3) = 10;
-          *(sizes_begin+4) = 3;
-          struct Neural_Net* nnet = init(sizes_begin, sizes_end);
-        }
-	size_t epochs = argv[argc-2];
-	double eta = argv[argc-1];
+	printf("%zu\n", sizeof(struct Sig_Neuron));
+	size_t epochs = 20;
+	double eta = 1.5;
+	size_t* sizes_begin = (size_t*) malloc(sizeof(size_t)*5);
+	size_t* sizes_end = sizes_begin+5;
+	*(sizes_begin) = 3;
+  	*(sizes_begin+1) = 5;
+  	*(sizes_begin+2) = 10;
+  	*(sizes_begin+3) = 10;
+  	*(sizes_begin+4) = 3;
   	double* expected_begin = (double*) malloc(sizeof(double)
-                                 * epochs * *(sizes_end - 1));
+                                  * epochs * *(sizes_end - 1));
   	double* input_begin = generate_input(epochs, sizes_begin, expected_begin);
+	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
 	training(nnet, epochs, input_begin, expected_begin, eta);
-        if(argv[0] == '1')
-        {
-          if(argv[2] == '1')
-            savennet(nnet,argv[3]);
-        }
-        else
-        {
-          if(argv[1]=='1')
-            savennet(nnet,argv[2]);
-        }
+        savennet(nnet, "saved.txt");
 	free_nnet(nnet);
         free(sizes_begin);
         free(expected_begin);
