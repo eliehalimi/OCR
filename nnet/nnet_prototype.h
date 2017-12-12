@@ -1,4 +1,7 @@
-/* nnet_prototype.h : header for nnet_prototype.c will be used by main */
+/* 
+ * nnet_prototype.h : header containing both basic structures 
+ * of the neural network will be used by main
+*/
 
 #ifndef NNET_PROTOTYPE_H_
 #define NNET_PROTOTYPE_H_
@@ -8,7 +11,8 @@
 
 /* Structure of a sigmoid neurone of the neural network */
 
-struct Sig_Neuron{
+struct Sig_Neuron
+{
   /* Initialized by net_init */ 
 	// mandatory for weights[] to be last in struct definition
   double bias;
@@ -26,7 +30,8 @@ struct Sig_Neuron{
 /* Structure of the feedforward neural network using a cross-entropy
  * cost function.*/
 
-struct Neural_Net {
+struct Neural_Net
+{
   /* given as arguments */
   size_t* sizes_begin;
   size_t* sizes_end;
@@ -38,7 +43,5 @@ struct Neural_Net {
   /* computed during success_and_errors */
   double tot_error;
 };
-
-
 
 #endif

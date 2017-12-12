@@ -1,14 +1,13 @@
-/* nnet_prototype.c : This is the prototype for our neural network.To be clear,
- *  this is where the base struct is saved not where the whole network. */
+/* 
+ * nnet_init.c : Funtions for initializing and freeing the neural network
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "nnet_init.h"
 #include "nnet_functions.h"
 
-/* Initializes a new neural network.
-   Inputs : list of layers' sizes and number of hidden layers
-*/
+// Initializes a new neural network.
 
 struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end) {
   struct Neural_Net *nnet = (struct Neural_Net*) malloc(sizeof(struct Neural_Net));

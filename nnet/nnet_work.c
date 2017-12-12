@@ -1,11 +1,11 @@
 /*
- * nnet_work.c :
+ * nnet_work.c : Functions for the neural network to train and return outputs
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "nnet_init.h"
 #include "nnet_functions.h"
+#include "nnet_work.h"
 
 void training(struct Neural_Net *nnet, size_t epochs, double*
                 training_data_begin, double* expect_data_begin, double eta)
@@ -25,11 +25,11 @@ void work(struct Neural_Net *nnet, double *input_begin)
 
 char convert_output(struct Neural_Net *nnet)
 {
-  double max = (nnet->layers_end - *(nnet->sizes_end -1))->ouput;
+  double max = (nnet->layers_end - *(nnet->sizes_end -1))->output;
   size_t maxval = 0;
   for(size_t i = 1; i < *(nnet->sizes_end - 1);i++)
   {
-    if((nnet->layers_end - *(nnet->sizes_end - 1) + i)->output > max)
+    if((nnet->layers_end - *(nnet->sizes_end - 1) + i) ->output > max)
     {
       max = (nnet->layers_end - *(nnet->sizes_end - 1) + i)->output;
       maxval = i;

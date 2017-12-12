@@ -163,9 +163,10 @@ void feedforward(struct Neural_Net* nnet, double* input_begin)
     		k++;
 	}
 }
+
 /*
-** Computes the accuracy,the total error and the total cost of the network.
-** It also sets the errors of the neurons of the output layer.
+ * Computes the accuracy,the total error and the total cost of the network.
+ * It also sets the errors of the neurons of the output layer.
 */
 
 void success_and_errors(struct Neural_Net* nnet, double* expect_begin) 
@@ -202,8 +203,8 @@ void success_and_errors(struct Neural_Net* nnet, double* expect_begin)
 }
 
 /* 
-** Computes and changes the error of all neurons in a layer.
-*/
+ * Computes and changes the error of all neurons in a layer.
+ */
 
 void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron* 
 		layer_end, struct Sig_Neuron* next_layer_end)
@@ -222,13 +223,13 @@ void backprop_layer(struct Sig_Neuron* layer_begin, struct Sig_Neuron*
 }
 
 /*
-** Computes and changes error of all neurons in the network by iterating over
-**  backprop_layer.
+ * Computes and changes error of all neurons in the network by iterating over
+ *  backprop_layer.
 */
 
 void backprop(struct Neural_Net *nnet)
-
-	int k = 2;
+{
+        int k = 2;
   	struct Sig_Neuron* x = nnet->layers_end;
   	struct Sig_Neuron* y = nnet->layers_end - *(nnet->sizes_end - 1);
   	struct Sig_Neuron* z = y;
@@ -243,8 +244,8 @@ void backprop(struct Neural_Net *nnet)
 }
 
 /*
-** Computes the new weights of all neurons in a layer and updates their weights
-*/
+ * Computes the new weights of all neurons in a layer and updates their weights
+ */
 
 void change_weight_layer(double eta, struct Sig_Neuron* prev_layer_begin,
 	       	struct Sig_Neuron* layer_begin, struct Sig_Neuron* layer_end)
@@ -255,16 +256,16 @@ void change_weight_layer(double eta, struct Sig_Neuron* prev_layer_begin,
      		{
        			(layer_begin + i)->weights_begin[j] =
 			       	(layer_begin + i)->weights_begin[j] - eta
-         			* ((layer_begin + i)->error *
-					*  (prev_layer_begin + j)->output);
+                          * (layer_begin + i)->error
+					* (prev_layer_begin + j)->output;
      		}
    	}
 }
 
 /*
-** Computes the new weights of all neurons in the network and updates their
-**  weights by iterating over change_weight_layer 
-*/
+ * Computes the new weights of all neurons in the network and updates their
+ * weights by iterating over change_weight_layer 
+ */
 
 void change_weight(struct Neural_Net *nnet, double eta)
 {

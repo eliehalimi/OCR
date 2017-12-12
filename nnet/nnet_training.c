@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "nnet_prototype.h"
 #include "nnet_init.h"
+#include "nnet_work.h"
 #include "../save/save_file.h"
 
 double* generate_input(size_t epochs, size_t* size_begin,double* expected_begin)
