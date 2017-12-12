@@ -149,7 +149,8 @@ int main(int argc, char* argv[])
 	*/
 	int *image = images->next->image;
 	printf("%d",images->next->y);
-	printf("%d", images->next->x);
+	printf("%d\n", images->next->x);
+	write(1,"here?\n",6);
 	for (int j = 0; j < images->next->y; j++)
 	  {
 	    for (int i = 0; i<images->next->x; i++)
