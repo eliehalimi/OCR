@@ -3,7 +3,7 @@
 CC=gcc
 
 CPPFLAGS=
-CFLAGS=-fsanitize=address -Wall -Wextra -Werror -std=c99 -O0 -g
+CFLAGS=-fsanitize=address -Wall -Wextra -Werror -std=c99 -O0 -g3
 LDFLAGS= 
 LDLIBS= -fsanitize=address -lm 
 
