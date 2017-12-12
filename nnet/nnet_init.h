@@ -18,23 +18,9 @@
 struct Neural_Net* init(size_t* sizes_begin, size_t* sizes_end);
 
 
-/* loads the text file containing the neural network */
-
-//void load_net(char *path);
-
-
-/* Trains a neural network.
-   Inputs : training_data = list of inputs converted to double arrays,
-   expect_data  list of correct data also converted and eta=learning rate */ 
-
-void training(struct Neural_Net* nnet, size_t epochs, double* 
-		training_data_begin, double* expect_data_begin, double eta);
-
-/* saves the neural network into a text file */
-
-//void save_net(char path[], Neural_Net nnet);
+// Frees the neural network pointed by nnet
 
 void free_nnet(struct Neural_Net *nnet);
 
 #endif
-//# endif
+

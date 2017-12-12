@@ -9,7 +9,7 @@
 /* open a file with a parameter describing either read or write */ 
 //void open_file(char *path, char *type);
 
-void loadnnet(char* path);
+struct Neural_Net * loadnnet(char* path);
 
 void savennet(struct Neural_Net * nnet, char* path);
 
