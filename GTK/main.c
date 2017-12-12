@@ -56,11 +56,6 @@ void grayscale(void)
     gtk_main_quit();
 }
 
-void skew(void)
-{
-    gtk_main_quit();
-}
-
 void generate_text(GtkWidget *list[])
 {
     /*Initialisation*/
@@ -102,7 +97,6 @@ int main(int argc, char **argv)
     GtkWidget *load_button;
     GtkWidget *save_button;
     GtkWidget *grayscale_button;
-    GtkWidget *skew_button;
     GtkWidget *image;
     GtkWidget *text_label;
     GtkWidget *text_button;
@@ -124,7 +118,6 @@ int main(int argc, char **argv)
     load_button = gtk_button_new_with_label("Load Image");
     save_button = gtk_button_new_with_label("Save Text");
     grayscale_button = gtk_button_new_with_label("Grayscale");
-    skew_button = gtk_button_new_with_label("Skew");
     image = gtk_image_new();
     text_button = gtk_button_new_with_label("Generate Text");
     text_label = gtk_label_new("Text from Image");
@@ -136,25 +129,23 @@ int main(int argc, char **argv)
 
     /*Table*/
 
-    table = gtk_table_new(5, 30, FALSE);
+    table = gtk_table_new(4, 30, FALSE);
     gtk_container_add(GTK_CONTAINER(main_window), table);
 
     gtk_table_attach_defaults(GTK_TABLE(table), load_button, 0, 1, 0, 1);
     gtk_table_attach_defaults(GTK_TABLE(table), text_button, 0, 1, 1, 2);
     gtk_table_attach_defaults(GTK_TABLE(table), save_button, 0, 1, 2, 3);
     gtk_table_attach_defaults(GTK_TABLE(table), grayscale_button, 0, 1, 3, 4);
-    gtk_table_attach_defaults(GTK_TABLE(table), skew_button, 0, 1, 4, 5);
-    gtk_table_attach_defaults(GTK_TABLE(table), image, 1, 20, 0, 5);
-    gtk_table_attach_defaults(GTK_TABLE(table), text_label, 20, 30, 0, 5);
-    gtk_table_attach_defaults(GTK_TABLE(table), frame_image, 1, 20, 0, 5);
-    gtk_table_attach_defaults(GTK_TABLE(table), frame_text, 20, 30, 0, 5);
+    gtk_table_attach_defaults(GTK_TABLE(table), image, 1, 20, 0, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), text_label, 20, 30, 0, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), frame_image, 1, 20, 0, 4);
+    gtk_table_attach_defaults(GTK_TABLE(table), frame_text, 20, 30, 0, 4);
 
     /*Callbacks*/
 
     g_signal_connect_swapped(G_OBJECT(load_button), "clicked", G_CALLBACK(load_image), list);
     g_signal_connect_swapped(G_OBJECT(save_button), "clicked", G_CALLBACK(save_text), NULL);
     g_signal_connect_swapped(G_OBJECT(grayscale_button), "clicked", G_CALLBACK(grayscale), NULL);
-    g_signal_connect_swapped(G_OBJECT(skew_button), "clicked", G_CALLBACK(skew), NULL);
     g_signal_connect_swapped(G_OBJECT(text_button), "clicked", G_CALLBACK(generate_text), list); 
 
     /*Event Loop*/
