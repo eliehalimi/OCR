@@ -120,6 +120,7 @@ int main(int argc, char* argv)
 	training(nnet, epochs, input_begin, expected_begin, eta);
         if(argv[0] == '1'
 	savennet(nnet, "saved.txt");
+	loadnnet("saved.txt");
 	free_nnet(nnet);
         free(sizes_begin);
         free(expected_begin);
