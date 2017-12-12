@@ -52,6 +52,7 @@ void add_image(int label[], struct components *c, struct images *images)
 {
   write(1,"COUCOU\n",7);
   struct components *tmp = c;
+  struct images *tmpim = images;
   while(tmp->next != NULL)
     {
       write(1,"COUCO6\n",7);
@@ -59,28 +60,21 @@ void add_image(int label[], struct components *c, struct images *images)
       int x = (int)tmp->next->right - (int)tmp->next->left +1;
       printf("%d",x);
       printf("%d",y);
-      int *image = malloc(sizeof(int)*x*y);
+      
+      write(1,"COUCO9\n",7);
+      tmpim->next = malloc(sizeof(struct images));
+      tmpim->next->next = NULL;
+      tmpim->next->image = malloc(sizeof(int)*x*y);
       for(size_t j = tmp->next->up;j <= tmp->next->down; j++)
 	{
 	  for(size_t i = tmp->next->left; i <= tmp->next->right; i++)
 	    {
-	      *(image+ ((int)i-(int)(tmp->next->left)) + (((int)j-(int)(tmp->next->up))*x)) = (label[i +j*x]==-1);
+	      *(tmpim->next->image + ((int)i-(int)(tmp->next->left)) + (((int)j-(int)(tmp->next->up))*x)) = (label[i +j*x]==-1);
 	    }
 	}
-      write(1,"COUCO7\n",7);
-      struct images *tmpim = images;
-      write(1,"COUCO8\n",7);
-      struct images *new = malloc(sizeof(struct images));
-      while (tmpim->next != NULL)
-	{
-	  tmpim= tmpim->next;
-	}
-      write(1,"COUCO9\n",7);
-      new->next = NULL;
-      new->image = image;
-      new->x = x;
-      new->y = y;
-      tmpim->next = new;
+      tmpim->next->x =x;
+      tmpim->next->y =y;
+      tmpim = tmpim->next;
       tmp = tmp->next;
       write(1,"COUCO10\n",8);
     }
@@ -127,9 +121,9 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
   Uint32 pixel;
   Uint8 r, g, b;
   
-  for (i = 0; i < x; i++)
+  for (j = 0; j < y; j++)
     {
-      for (j = 0; j < y; j++)
+      for (i = 0; i < x; i++)
         {
 	  pixel = getpixel(img, i, j);
 	  SDL_GetRGB(pixel, img->format, &r, &g, &b);
@@ -159,7 +153,7 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
                     }
 		  else
                     {
-                      SetEquivalent(i+j*x,(i)+(j-1)*x,label,x,y);
+                      SetEquivalent(i+j*x,i+(j-1)*x,label,x,y);
                     }
 
                 }
@@ -242,6 +236,10 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
                     }
 		}
             }
+	  else
+	    {
+	      label[i + j*x] = -1;
+	    }
         }
     }
   write(1,"COUCOU\n",7);
@@ -253,17 +251,19 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
   c->down = 0;
   c->left = 0;
   c->right = 0;
-  for (i = 0;i< x;i++)
+  for (j = 0;j< y;j++)
     {
-      for (j=0;j<y;j++)
+      for (i=0;i<x;i++)
 	{
 	  pixel = getpixel(img, i, j);
 	  SDL_GetRGB(pixel, img->format, &r, &g, &b);
 	  if (r == 0 && g == 0 && b == 0)
 	    {
 	      label2 = label[i+j*x];
-	      if(label2 ==(int)(i+j*x))
+	      write(1,"LABEL\n",6);
+	      if(label2 == (int)(i+j*x))
 		{
+		  write(1,"CONDITION\n",10);
 		  label[i+j*x] = count;
 		  count++;
 		  write(1,"ADD\n",4);
@@ -287,12 +287,19 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
   images->next = NULL;
   images->image = NULL;
   images->x = 0;
-  images->y =0;
+  images->y = 0;
   add_image(label,c, images);
-  for(;c;c = c->next)
+  write(1,"add\n",4);
+
+  struct components *tmp = c->next;
+  while(c->next != NULL)
   {
     free(c);
+    c = tmp;
+    tmp=tmp->next;
   }
   
+  free(c);
+  write(1,"free\n",5);
   return images;
 }
