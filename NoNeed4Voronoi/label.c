@@ -289,5 +289,10 @@ struct images* labels(SDL_Surface *img, size_t x,size_t y, int label[])
   images->x = 0;
   images->y =0;
   add_image(label,c, images);
+  for(;c;c = c->next)
+  {
+    free(c);
+  }
+  
   return images;
 }

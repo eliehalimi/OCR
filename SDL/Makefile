@@ -1,3 +1,4 @@
+
 ## Simple SDL mini code
 
 CC=gcc

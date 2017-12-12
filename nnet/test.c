@@ -95,10 +95,10 @@ char convert_output()
   return '\0';
 }
 
-int main()
+int main(int argc, char* argv)
 {
 	printf("%zu\n", sizeof(struct Sig_Neuron));
-	size_t epochs = 20;
+	size_t epochs = ;
 	double eta = 1.5;
 	size_t* sizes_begin = (size_t*) malloc(sizeof(size_t)*5);
 	size_t* sizes_end = sizes_begin+5;
@@ -109,8 +109,16 @@ int main()
   	*(sizes_begin+4) = 3;
   	double* expected_begin = (double*) malloc(sizeof(double) * epochs * *(sizes_end - 1));
   	double* input_begin = generate_input(epochs, sizes_begin, expected_begin);
-	struct Neural_Net* nnet = init(sizes_begin, sizes_end);
+        if(argv[0] == '1')
+        {
+          struct Neural_Net* = loadnnet(nnet,argv[1]);
+        }
+        else
+        {
+          struct Neural_Net* nnet = init(sizes_begin, sizes_end);
+        }
 	training(nnet, epochs, input_begin, expected_begin, eta);
+        if(argv[0] == '1'
 	savennet(nnet, "saved.txt");
 	free_nnet(nnet);
         free(sizes_begin);
