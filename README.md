@@ -1,4 +1,4 @@
-#README
+README
 ======
 
 This project was made back in 2017 at EPITA during our 2nd year of engineering
