@@ -7,15 +7,15 @@
 
 struct components
 {
-  struct components *next;
-  size_t up,down,left,right;
+    struct components *next;
+    size_t up,down,left,right;
 };
 
 struct images
 {
-  struct images *next;
-  int *image;
-  int x,y;
+    struct images *next;
+    int *image;
+    int x,y;
 };
 
 void add_comp(struct components *c, size_t x, size_t y);
