@@ -57,7 +57,15 @@ dkms.conf
 
 ### Linux ###
 *~
-
+*#
+*swp
+*.swp
+*.#
+*.c~
+*.d
+*.h~
+*.txt
+#this is a comment requested by @Leader (only snowpadawan) as of now
 # temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 
